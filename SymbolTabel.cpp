@@ -37,7 +37,7 @@ void SymbolTabel::InsertID(const string& IdName)
 	
 	if(!Find(local,i))
 	{
-		tabel.push_back(" "); //sæt "  " bagest
+		tabel.push_back(" "); //sï¿½t "  " bagest
 		
 		//string temp;
 		int marker1, marker2;
@@ -62,7 +62,8 @@ void SymbolTabel::InsertID(const string& IdName)
 		tabel.push_back(" ");
 		string newElem=IdName;
 		MakeUpper(newElem);
-		for(size_t i=tabel.size()-2;i>0 && newElem<tabel[i];--i)
+		size_t i=tabel.size()-2;
+		for(;i>0 && newElem<tabel[i];--i)
 			tabel[i+1]=tabel[i];
 		tabel[i+1]=newElem;
 	}

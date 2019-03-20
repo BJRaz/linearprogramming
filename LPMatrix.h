@@ -1,52 +1,52 @@
       /*
       FILE      : LPmatrix.h
-      Programmør: Torben Høirup
+      Programmï¿½r: Torben Hï¿½irup
       Retttet   : 08/11 1999
 
       Klassen LPMatrix er dynamisk og er beregnet til anvendelse i programmer 
-      til Lineær programmering.
+      til Lineï¿½r programmering.
       Klassen arver fra den generelle (template-baserede) Matrix-klasse, 
       men er fast defineret til at indeholde double-values
       Herved kan dennes metoder til:
       - indexering [][]
-      - Resize af matrix - større og mindre
+      - Resize af matrix - stï¿½rre og mindre
       - kopiering (copy constructor)
       - matrix-assignment
       umiddelbart anvendes.
 
-      LPMatrix konstruerer en matrix initialiseret med værdien 0.0 i alle 
+      LPMatrix konstruerer en matrix initialiseret med vï¿½rdien 0.0 i alle 
       elementer.
 
       En LPMatrix skal oprettes og Resize's med: 
-      antal rækker lig med:
+      antal rï¿½kker lig med:
         - antal ligninger (uligheder) + 1 (kriteriefunktionen) 
-      antal søjler lig med:
+      antal sï¿½jler lig med:
         - antal variabler + antal restvariabler + antal straffevariabler
-          + 1 (b-value, ligningens højreside)
-      Ved konstruktion og Resize vil LPMatrix sikre en fri række 0 og
-      en fri søjle 0, begge med værdien 0.0 indsat.
-      Række 0 og søjle 0 anvendes af Simplex-algoritmen til forsk. information!
+          + 1 (b-value, ligningens hï¿½jreside)
+      Ved konstruktion og Resize vil LPMatrix sikre en fri rï¿½kke 0 og
+      en fri sï¿½jle 0, begge med vï¿½rdien 0.0 indsat.
+      Rï¿½kke 0 og sï¿½jle 0 anvendes af Simplex-algoritmen til forsk. information!
 
       Har man fx 4 ligninger med ialt 7 variabler + en b-value, skal
-      et LPMatrix objekt instantieres således:
+      et LPMatrix objekt instantieres sï¿½ledes:
           LPMatrix A(4, 8);
 
-      Skal den Resize's, fordi der er 2 variabler mere, ser Resize sådan ud:
+      Skal den Resize's, fordi der er 2 variabler mere, ser Resize sï¿½dan ud:
           A.Resize(6, 8);
       
       
-      To rækker kan ombyttes med SwapRows(row1, row2)
+      To rï¿½kker kan ombyttes med SwapRows(row1, row2)
 
       Den indeholder desuden de ensbetydende (bi-implikative) metoder:
       - AddToRow, der adderer et multiplum af row2 til row1 
         (for at eliminere en variabel i row1)
-      - ScaleRow, der multiplicerer en række med en faktor 
-        (isolering af variabel, så den har koefficienten 1)
+      - ScaleRow, der multiplicerer en rï¿½kke med en faktor 
+        (isolering af variabel, sï¿½ den har koefficienten 1)
 
       Fordelen ved en dynamisk LPMatrix er, at man kan have en instans af
-      klassen ved begyndelsen af oversættelsen. Dimensionerne på matrix'en
-      kan ændres, når LP-problemets omfang kendes, således at man i det
-      følgende pass i oversættelsen kan indsætte koefficienterne til variablerne
+      klassen ved begyndelsen af oversï¿½ttelsen. Dimensionerne pï¿½ matrix'en
+      kan ï¿½ndres, nï¿½r LP-problemets omfang kendes, sï¿½ledes at man i det
+      fï¿½lgende pass i oversï¿½ttelsen kan indsï¿½tte koefficienterne til variablerne
       i en korrekt dimensioneret LPMatrix efter en Resize-operation.
 
       size_t er typedefineret i Matrix.h og er synonym med unsigned int
@@ -56,7 +56,7 @@
       #ifndef LPMATRIX_H
       #define LPMATRIX_H
 
-      #include "matrix.h"
+      #include "Matrix.h"
       #include "STLdef.h"
 
       class LPMatrix: public Matrix<double>
@@ -74,11 +74,11 @@
           void AddToRow (size_t row1, size_t row2, double c);
           void ScaleRow (size_t row, double c);
 
-          //Indlæsning fra tekstfil af ligningssystem:
+          //Indlï¿½sning fra tekstfil af ligningssystem:
           void ReadFromFile (const string& filnavn); 
       };
 
-      //Forward erklæring af fri udskrivnings-funktion:
+      //Forward erklï¿½ring af fri udskrivnings-funktion:
       ostream& operator << (ostream& os, const LPMatrix& LPM);
 
       /*
@@ -100,16 +100,16 @@
 
         void ScaleRow (size_t row, double c);
           multiplicerer ligningen i row(row) med konstanten c for at isolere 
-          en variabel heri, så den får koefficienten 1
+          en variabel heri, sï¿½ den fï¿½r koefficienten 1
             row(r) = c * row(r);  c != 0
 
         void ReadFromFile (const char* filnavn);  
-          indlæser en LPMatrix fra en tekstfil med navn = filnavn.
-          Der indlæses ikke data i række 0 og søjle 0
+          indlï¿½ser en LPMatrix fra en tekstfil med navn = filnavn.
+          Der indlï¿½ses ikke data i rï¿½kke 0 og sï¿½jle 0
 
         fri funktion:
         ostream& operator << (ostream& os, LPMatrix& LPM);
-          udskriver LPMatrix fra row 1 og col 1 på standard output.
+          udskriver LPMatrix fra row 1 og col 1 pï¿½ standard output.
           Anvendes til test.
       */
 

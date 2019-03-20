@@ -15,7 +15,7 @@ LP::~LP()
 	if(pSLP != NULL)
 	{
 		delete pSLP;
-		pSLP = NULL;	//For at undgå dangling reference
+		pSLP = NULL;	//For at undgï¿½ dangling reference
 	}
 }
 
@@ -42,11 +42,11 @@ bool LP::Run(const string& filnavn, bool trace)
 			cout << endl;
 		NextToken();
 	}*/
-	//hvad er meningen med ovenstående?
+	//hvad er meningen med ovenstï¿½ende?
 	
 
 	
-	A.Resize(m+1, n+1);	//A sættes til rigtig size før kodegenerering
+	A.Resize(m+1, n+1);	//A sï¿½ttes til rigtig size fï¿½r kodegenerering
 	
 	if(!ParseAndGenerateCode())
 	{
@@ -72,7 +72,7 @@ const char ETX = '\3';	//Grim variabel for class LP
 char LP::NextChar()
 {
 	char ch;
-	//hvis filen ikke er EOF læses et ReadAheadChar
+	//hvis filen ikke er EOF lï¿½ses et ReadAheadChar
 	if(TekstFil.get(ch))
 		return ch;
 	//EOF returner ETX = ASCII '\3'
@@ -167,7 +167,7 @@ bool LP::Scan()
 
 					if(!isdigit(ReadAheadChar))//check tegn efter '.'
 					{
-						Uligheder[ulighedNr-1] += ReadAheadChar;	//indsæt fejltegn
+						Uligheder[ulighedNr-1] += ReadAheadChar;	//indsï¿½t fejltegn
 						SetFejl("'.' skal efterfoelges af ciffer!",true);
 						return false;
 					}
@@ -203,7 +203,7 @@ bool LP::Scan()
 						break;
 					
 				    Uligheder[ulighedNr-1] += ' ';
-					//Indsæt ID i symboltabel
+					//Indsï¿½t ID i symboltabel
 					Symboltabel.InsertID(streng);
 				}
 				else
@@ -215,7 +215,7 @@ bool LP::Scan()
 		}	//switch (ReadAheadChar)
 		//lav det token der er indeholdt i streng
 		CurrentToken.MakeToken(streng);
-		//Sæt token i køen
+		//Sï¿½t token i kï¿½en
 		TokenQueue.push(CurrentToken);
 	}//if/whitespace.find.....
 	
@@ -328,7 +328,7 @@ void LP::HjTermliste()
 		Termliste();
 	else
 	{
-		//epsilon .. gør intet
+		//epsilon .. gï¿½r intet
 	}
 	//else
 	//SetFejl...
@@ -409,19 +409,19 @@ void LP::DoNUM()
 	if(LastToken.tType == MINUS) //venstre side, minus foran koefficient
 		CurrentToken.numValue = - CurrentToken.numValue;
 	//ved fortegn PLUS foretages intet
-	if(itis_b_Now) //tallet på højre side
+	if(itis_b_Now) //tallet pï¿½ hï¿½jre side
 	{
 		A[ulighedNr][n+1] = CurrentToken.numValue;
 		itis_b_Now = false;
 	}
 	NextToken();
-		cout << " DoNUM kørt !! \n";
+		cout << " DoNUM kï¿½rt !! \n";
 
 }
 
 void LP::DoLESS()
 {
-		cout << " DoLESS kørt !! \n";
+		cout << " DoLESS kï¿½rt !! \n";
 
 	A[ulighedNr][restIdx] = 1;
 	restIdx++;
@@ -431,12 +431,12 @@ void LP::DoLESS()
 
 void LP::DoGREATER()
 {
-	cout << " DoGREATER kørt !! \n";
+	cout << " DoGREATER kï¿½rt !! \n";
 	A[ulighedNr][restIdx] = -1.0;
 	restIdx++;
 	A[ulighedNr][kunstIdx] = 1.0;
 	kunstIdx++;
-	A[ulighedNr][0] = 1.0; //marker kunstig variabel i søjle 0
+	A[ulighedNr][0] = 1.0; //marker kunstig variabel i sï¿½jle 0
 	itis_b_Now = true;
 	NextToken();
 }
@@ -486,7 +486,7 @@ void LP::NextToken()
 
 bool LP::ParseAndGenerateCode()
 {
-	ulighedNr = 1; // indeks til første række i LPMatrix-objektet
+	ulighedNr = 1; // indeks til fï¿½rste rï¿½kke i LPMatrix-objektet
 	NextToken();	//symbol-lookahead
 	if(CurrentToken.tType == END)
 		SetFejl("Der er ingen symboler der kan parses",false);   //minus linienummer
@@ -514,7 +514,8 @@ const vector<loesning>& LP::GetBasisLoesning()
 			enVariabel.second = 0.0;
 		else
 		{
-			for(size_t row = 1; A[row][varnr] != 1.0; ++row);
+			size_t row = 1;
+			for(; A[row][varnr] != 1.0; ++row);
 			enVariabel.second = A[row][n+1];
 		}
 		Loesning.push_back(enVariabel);
