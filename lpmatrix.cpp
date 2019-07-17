@@ -1,5 +1,5 @@
       /* File			 : lpmatrix.cpp
-				 Programmør: ToHø
+				 Programmï¿½r: ToHï¿½
 				 Rettet		 : 08/11 1999
 			*/
 
@@ -49,10 +49,10 @@
       {
         /*
         Til test.
-        Læser først antal ligninger (minus K-max): m 
+        Lï¿½ser fï¿½rst antal ligninger (minus K-max): m 
         herefter antal variabler                 : n
         Matrixen resize's herefter til en (m+1) * (n+1) matrix.
-        Efter resize indlæses koeffecienter fra ligningerne på
+        Efter resize indlï¿½ses koeffecienter fra ligningerne pï¿½
         kanonisk form, fx.:
         30 10 1 0 0 2800
          1  2 0 1 0  210
@@ -82,7 +82,7 @@
         os <<"\nColumn:";
         for (col = 1; col < LPM.NoOfCols(); ++col)
         {
-          sprintf(cs,"% 4d ", col);
+          sprintf(cs,"%4lu ", col);
           os << cs;
         }
         os << endl;
@@ -99,7 +99,7 @@
           {
             val = LPM.GetAt(row,col);
             if (val == (long)val)
-              sprintf(cs," % 3d ", (long) val); //NB: typecast!
+              sprintf(cs," % 3ld ", (long) val); //NB: typecast!
             else
               sprintf(cs,"% 7.1f ", val);
             os << cs;

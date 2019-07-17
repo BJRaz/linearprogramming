@@ -243,7 +243,7 @@ void LP::SetFejl(const string& errStr, bool medLinieNr)
 	if(medLinieNr && Uligheder.size() >= ulighedNr)
 	{
 		char format[100];
-		sprintf(format," i ulighed nr. %d ", ulighedNr);
+		sprintf(format," i ulighed nr. %lu ", ulighedNr);
 		FejlTekst = errStr + format + ":\n" + Uligheder[ulighedNr-1];
 	}
 	else 

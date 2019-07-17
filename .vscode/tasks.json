@@ -5,8 +5,8 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "g++ build active file",
-            "command": "/usr/bin/g++",
+            "label": "clang build active file",
+            "command": "/usr/bin/clang",
             "args": [
                 "-g",
                 "${file}",
@@ -16,14 +16,9 @@
             "options": {
                 "cwd": "/usr/bin"
             },
-            "compilerPath": "/usr/bin/g++",
             "problemMatcher": [
                 "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            ]
         }
     ]
 }
