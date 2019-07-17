@@ -5,7 +5,8 @@
 
 #include "StandardLP.h"
 
-
+#ifndef STRAFFELP_H
+#define STRAFFELP_H
 
 class StraffeLP : public StandardLP
 {
@@ -17,7 +18,7 @@ public:
 	virtual bool SolveLP();
 
 protected:
-	void OmformRaekkerMedKunstVar();	//overflødig efter fase 5
+	void OmformRaekkerMedKunstVar();	//overflï¿½dig efter fase 5
 	void BestemAntalKunstVar();
 	void BestemM();
 	void StrafKmedM();
@@ -28,6 +29,8 @@ protected:
 	size_t nKV;		//antal kunstige variabler
 	long M;			//Store M
 
-	long M_KONST;	//Den konstant som "største" forhold multiplicers med,
+	long M_KONST;	//Den konstant som "stï¿½rste" forhold multiplicers med,
 					//jvf. p. 67
 };
+
+#endif

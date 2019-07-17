@@ -4,7 +4,7 @@
 //#include "STLdef.h"
 //#include "SymbolTabel.h"
 
-
+using std::string;
 
 
 void WriteBasisSolution(const vector<loesning>& loesVector);
@@ -22,10 +22,10 @@ int main()
 	if(lp.Run(LpProblem))
 	{
 		cout << "Ingen fejl i lexikalsk analyse: ";
-		/*
+		
 		WriteMatrix(lp.GetMatrix());
 		WriteUligheder(lp.GetUligheder());
-		WriteBasisSolution(lp.GetBasisLoesning());*/
+		WriteBasisSolution(lp.GetBasisLoesning());
 	}
 	else 
 		cout << "\nlp.Run(" << LpProblem << ") lykkedes ikke: " << lp.GetFejlTekst() << endl;

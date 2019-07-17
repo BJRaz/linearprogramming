@@ -16,17 +16,17 @@ StandardLP::~StandardLP()
 bool StandardLP::SolveLP()
 {
 	//MArker basisvariabler
-	size_t p,q; //Række og søjleindex
+	size_t p,q; //Rï¿½kke og sï¿½jleindex
 	while(true)
 	{
-		if(bTrace)	//Testudskrift ønskes
+		if(bTrace)	//Testudskrift ï¿½nskes
 		{
 			char tegn;
 			cout << "Trace  - Matrix: \n" << A << "Tast tegn: ";
 			cin >> tegn;
 		} // --------    End trace    -----------
 		q = BestemPivotSoejle();
-		if(q>0)	//Så findes en søjle i K med koefficient > 0 
+		if(q>0)	//Sï¿½ findes en sï¿½jle i K med koefficient > 0 
 		{
 			p = BestemPivotRaekke(q);
 			if(p==0)	//Ingen raekke fandtes
@@ -48,7 +48,7 @@ void StandardLP::MarkerBasisVariabler()
 size_t StandardLP::BestemPivotSoejle()
 {
 	double c = 1E-10;
-	size_t q = 0;	//Søjleindex er uden for variablern, der begynder i Soejle 1
+	size_t q = 0;	//Sï¿½jleindex er uden for variablern, der begynder i Soejle 1
 
 	for(size_t j = 1; j<=n;++j)
 	{
@@ -63,7 +63,7 @@ size_t StandardLP::BestemPivotSoejle()
 				
 size_t StandardLP::BestemPivotRaekke(size_t q)
 {
-	double kvotient = 1E+38; //Meget stor værdi
+	double kvotient = 1E+38; //Meget stor vï¿½rdi
 	double broek = 0;
 	size_t p = 0;
 
@@ -94,7 +94,7 @@ void StandardLP::NySimplexTabel(size_t p, size_t q)
 			c = -A[i][q]/pivot;
 			if(c!=0.0)
 			{
-				//Eliminer variable i række 'i' ved at addere c*raekke p
+				//Eliminer variable i rï¿½kke 'i' ved at addere c*raekke p
 				//til raekke 'i'
 				A.AddToRow(i,p,c);
 			}
@@ -102,7 +102,7 @@ void StandardLP::NySimplexTabel(size_t p, size_t q)
 	c=1/pivot;
 	A.ScaleRow(p,c);
 
-	for(i=1;i<=m+1;++i)
+	for(int i=1;i<=m+1;++i)
 		A[i][q] = 0.0;
 	A[p][q]=1.0;
 }

@@ -2,8 +2,8 @@
 //
 //
 //
-#ifndef STRAFFELP_H
-#define STRAFFELP_H
+#ifndef STANDARDLP_H
+#define STANDARDLP_H
 
 #include "STLdef.h"
 #include "LPMatrix.h"
@@ -12,8 +12,8 @@ class StandardLP
 {
 public:
 	StandardLP(LPMatrix& LPM, bool trace = false);
-	//Benytter rækkerne 1 til m+1
-	//og søjlerne 1 til n+1
+	//Benytter rï¿½kkerne 1 til m+1
+	//og sï¿½jlerne 1 til n+1
 	virtual ~StandardLP();
 	virtual bool SolveLP();
 protected:
@@ -28,7 +28,7 @@ protected:
 	LPMatrix& A;
 	size_t m;
 	size_t n;
-	bool bTrace;	//true: matrix udskrives på cout ved hver iteration
+	bool bTrace;	//true: matrix udskrives pï¿½ cout ved hver iteration
 };
 
 #endif

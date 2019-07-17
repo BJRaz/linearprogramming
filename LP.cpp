@@ -20,10 +20,7 @@ LP::~LP()
 }
 
 bool LP::Run(const string& filnavn, bool trace)
-{/*
-	filNavn = filnavn;
-	return Scan();
-*/
+{
 	filNavn = filnavn;
 	Uligheder.clear();
 	bOKState = true;
@@ -34,18 +31,6 @@ bool LP::Run(const string& filnavn, bool trace)
 	else 
 		cout << "\nSCAN LYKKEDES: \n";
 	
-	/*NextToken();
-	while(CurrentToken.tType!=END)
-	{
-		cout << CurrentToken.theToken;
-		if(CurrentToken.tType == SEMICOLON)
-			cout << endl;
-		NextToken();
-	}*/
-	//hvad er meningen med ovenst�ende?
-	
-
-	
 	A.Resize(m+1, n+1);	//A s�ttes til rigtig size f�r kodegenerering
 	
 	if(!ParseAndGenerateCode())
@@ -53,11 +38,11 @@ bool LP::Run(const string& filnavn, bool trace)
 		cout << "\nParse fejl: \n";
 		return false;
 	}
-/*
-	cout << A << endl;
+
+	cout << "HER: " << A << endl;
 	pSLP = new StraffeLP(A,trace);
 	return (pSLP->SolveLP());
-*/
+
 	return bOKState;
 }
 
@@ -272,26 +257,8 @@ string LP::GetFejlTekst()
 
 void LP::LpUlighedsliste()
 {
-	//cout << "LpUlighedsListe\n";
-  	ulighedNr = 1;
-  	NextToken();  //symbol-look-ahead
-	if (CurrentToken.tType == END)
-		SetFejl("Der er ingen symboler, der kan parses!", false); //minus linienr
-  
-	cout << "\nCurrentToken != END i LP::LpUlighedsliste\n";	//TEST udskrift
-	while (CurrentToken.tType != END && !InError())  
-	{
-		int tal=1;
-	    Ulighed();
-		cout << "Koersel af Ulighed() udfoert " << tal << " gang(e)\n"; //TEST udskrift
-		++tal;
-  	}
-	/*
-	while(CurrentToken.tType != END && !InError())
-	{
-		Ulighed();
-	}
 	
+	// original fra noter !! (BJR)
 	ulighedNr = 1;
 	while(!TokenQueue.empty() && !InError())
 	{
@@ -299,7 +266,7 @@ void LP::LpUlighedsliste()
 		if(!InError())
 			Ulighed();
 		++ulighedNr;
-	}*/
+	}
 }
 
 void LP::Ulighed()
@@ -372,7 +339,7 @@ void LP::RelOp()
 
 void LP::Num()
 {
-	if(LastToken.tType == NUM)
+	if(CurrentToken.tType == NUM)
 	{
 		DoNUM();
 	}
@@ -486,11 +453,11 @@ void LP::NextToken()
 
 bool LP::ParseAndGenerateCode()
 {
-	ulighedNr = 1; // indeks til f�rste r�kke i LPMatrix-objektet
-	NextToken();	//symbol-lookahead
-	if(CurrentToken.tType == END)
-		SetFejl("Der er ingen symboler der kan parses",false);   //minus linienummer
-	if(!InError())
+	// ulighedNr = 1; // indeks til f�rste r�kke i LPMatrix-objektet
+	// NextToken();	//symbol-lookahead
+	// if(CurrentToken.tType == END)
+	// 	SetFejl("Der er ingen symboler der kan parses",false);   //minus linienummer
+	// if(!InError())
 		LpUlighedsliste();
 	return bOKState;
 }
