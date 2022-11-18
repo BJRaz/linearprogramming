@@ -5,20 +5,24 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "clang build active file",
-            "command": "/usr/bin/clang",
+            "label": "make build",
+            "command": "/usr/bin/make",
             "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
             ],
-            "options": {
-                "cwd": "/usr/bin"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ]
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "make clean",
+            "command": "/usr/bin/make clean",
+            "args": [
+            ],
+            "group": {
+                "kind": "build"                
+            }
         }
     ]
 }
