@@ -3,4 +3,5 @@
 *.dSYM
 .out
 bin/
+tags
 

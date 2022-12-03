@@ -1,5 +1,5 @@
 CC=clang++
-CFLAGS=-g -Iinclude
+CFLAGS=-Iinclude -g
 LD=ld
 LDFLAGS=-lstdc++
 OBJDIR:=bin
@@ -15,11 +15,9 @@ $(OBJDIR)/%.o: %.cpp
 $(OBJDIR):
 	-mkdir $(OBJDIR)
 lpmatrix: test.cpp $(OBJS)
-	$(CC) $(CFLAGS) $^ -o lpmatrix
+	$(CC) $(CFLAGS) $^ -o $(OBJDIR)/lpmatrix
 clean:
-	-rm -rf *.o
 	-rm -rf bin/
-	-rm -rf lpmatrix
 
 
 
