@@ -95,7 +95,7 @@ public:
   size_t NoOfCols() const;
 
 protected:
-  vector<row<T>> rows; // vector med rows vectorer
+  vector<row<T> > rows; // vector med rows vectorer
 };                     // end of class Matrix
 
 /* ------------------------ Kontrakter -----------------------------
