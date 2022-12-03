@@ -1,3 +1,4 @@
+//#define PRINTDEBUG
 //------------LP.cpp
 #include "LP.h"
 #include "StraffeLP.h"
@@ -35,7 +36,7 @@ bool LP::Run(const string &filnavn, bool trace)
 
 	if (!ParseAndGenerateCode())
 	{
-		cout << "\nParse fejl: \n";
+		SetFejl("Parse fejl: \n", false);
 		return false;
 	}
 
@@ -238,11 +239,12 @@ bool LP::Scan()
 	restIdx = nSymbols + 1;
 
 	kunstIdx = n - nGreater + 1;
+	#ifdef PRINTDEBUG
 	//--------------test udskrift --------------------
-	// cout << "\nrestIdx: " << restIdx;
-	// cout << "\nkunstIdx: " << kunstIdx;
-	// cout << "\n";
-
+	cout << "\nrestIdx: " << restIdx;
+	cout << "\nkunstIdx: " << kunstIdx;
+	cout << "\n";
+	#endif
 	return true;
 }
 
@@ -281,7 +283,9 @@ void LP::LpUlighedsliste()
 
 void LP::Ulighed()
 {
+	#ifdef PRINTDEBUG
 	cout << " - LP::Ulighed() koeres !!\n"; // TEST udskrift
+	#endif
 	Termliste();
 	if (!InError())
 		RelOp();
@@ -291,7 +295,9 @@ void LP::Ulighed()
 
 void LP::Termliste()
 {
+	#ifdef PRINTDEBUG
 	cout << " - Termliste() koeres !!\n"; // TEST udskrift
+	#endif
 	Term();
 	if (!InError())
 		HjTermliste();
@@ -299,7 +305,9 @@ void LP::Termliste()
 
 void LP::HjTermliste()
 {
+	#ifdef PRINTDEBUG
 	cout << "LP::HjTermliste koeres!!!\n"; // TEST udskrift
+	#endif
 	if (CurrentToken.tType == PLUS || CurrentToken.tType == MINUS)
 		Termliste();
 	else
@@ -323,9 +331,11 @@ void LP::Term()
 
 void LP::AddOp()
 {
+	#ifdef PRINTDEBUG
 	cout << " - LP::AddOP koeres !! \n"; // TEST udskrift
 	cout << "	-	CurrentToken type: (" << CurrentToken.theToken << ")\n";
 	cout << "	-	LastToken type: (" << LastToken.theToken << ")\n";
+	#endif
 	if (CurrentToken.tType == PLUS)
 		DoPLUS();
 	else if (CurrentToken.tType == MINUS)
@@ -390,13 +400,16 @@ void LP::DoNUM()
 		itis_b_Now = false;
 	}
 	NextToken();
+	#ifdef PRINTDEBUG
 	cout << " DoNUM k�rt !! \n";
+	#endif
 }
 
 void LP::DoLESS()
 {
+	#ifdef PRINTDEBUG
 	cout << " DoLESS k�rt !! \n";
-
+	#endif
 	A[ulighedNr][restIdx] = 1;
 	restIdx++;
 	itis_b_Now = true;
@@ -405,7 +418,9 @@ void LP::DoLESS()
 
 void LP::DoGREATER()
 {
+	#ifdef PRINTDEBUG
 	cout << " DoGREATER k�rt !! \n";
+	#endif
 	A[ulighedNr][restIdx] = -1.0;
 	restIdx++;
 	A[ulighedNr][kunstIdx] = 1.0;
@@ -417,26 +432,34 @@ void LP::DoGREATER()
 
 void LP::DoEQUAL()
 {
+	#ifdef PRINTDEBUG
 	cout << " DoEQUAL koeres !! \n";
+	#endif
 	itis_b_Now = true;
 	NextToken();
 }
 
 void LP::DoPLUS()
 {
+	#ifdef PRINTDEBUG
 	cout << " DoPLUS koeres !! \n";
+	#endif
 	NextToken();
 }
 
 void LP::DoMINUS()
 {
+	#ifdef PRINTDEBUG
 	cout << " DoMINUS koeres !! \n";
+	#endif
 	NextToken();
 }
 
 void LP::DoSEMICOLON()
 {
+	#ifdef PRINTDEBUG
 	cout << "\n DoSEMICOLON koeres !! \n";
+	#endif
 	++ulighedNr;
 	NextToken();
 }
@@ -460,12 +483,12 @@ void LP::NextToken()
 
 bool LP::ParseAndGenerateCode()
 {
-	// ulighedNr = 1; // indeks til f�rste r�kke i LPMatrix-objektet
-	// NextToken();	//symbol-lookahead
+	// ulighedNr = 1; 	indeks til f�rste r�kke i LPMatrix-objektet
+	// NextToken();		symbol-lookahead
 	// if(CurrentToken.tType == END)
 	// 	SetFejl("Der er ingen symboler der kan parses",false);   //minus linienummer
-	// if(!InError())
-	LpUlighedsliste();
+	if(!InError())
+		LpUlighedsliste();
 	return bOKState;
 }
 

@@ -13,14 +13,12 @@ void WriteMatrix(const LPMatrix LPM);
 int main()
 {
 	LP lp;
-	string LpProblem = "problems/finale.txt";
+	string LpProblem = "problems/mathhx.dk.txt";
 	// cout << "Skriv filnavnet med lp-problemet: ";
 	// cin >> LpProblem;
 	cout << endl;
 	if (lp.Run(LpProblem))
 	{
-		cout << "Ingen fejl i lexikalsk analyse: " << endl;
-
 		WriteMatrix(lp.GetMatrix());
 		WriteUligheder(lp.GetUligheder());
 		WriteBasisSolution(lp.GetBasisLoesning());
@@ -35,8 +33,7 @@ void WriteBasisSolution(const vector<loesning> &loesVector)
 {
 	loesning ls;
 	char cs[50], vs[50];
-	cout << endl
-		 << "Loesning paa optimeringsproblemet:" << endl;
+	cout << endl << "Loesning paa optimeringsproblemet:" << endl;
 
 	for (int i = 0; i < loesVector.size(); ++i)
 	{

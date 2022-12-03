@@ -7,8 +7,7 @@
             "type": "shell",
             "label": "make build",
             "command": "/usr/bin/make",
-            "args": [
-            ],
+            "args": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -18,11 +17,20 @@
             "type": "shell",
             "label": "make clean",
             "command": "/usr/bin/make clean",
-            "args": [
-            ],
+            "args": [],
             "group": {
-                "kind": "build"                
+                "kind": "build"
             }
         }
+        // ,
+        // {
+        //     "type": "cppbuild",
+        //     "label": "buildcpp",
+        //     "command": "clang++",
+        //     "args": [],
+        //     "group": {
+        //         "kind": "build"
+        //     }
+        // }
     ]
 }

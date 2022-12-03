@@ -9,13 +9,14 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/a.out",
+            "program": "${workspaceFolder}/bin/lpmatrix",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "externalConsole": true,
-            "MIMode": "lldb"
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "make build"
         }
     ]
 }

@@ -13,8 +13,6 @@ bool StraffeLP::SolveLP()
 {
 	OmformRaekkerMedKunstVar();
 	// Benyttes hvis r�kker med kunstige variabler oppstiles med negative b'er
-	//
-
 	BestemAntalKunstVar();
 	if (nKV > 0)
 	{
