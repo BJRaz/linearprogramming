@@ -1,7 +1,6 @@
 //------------LP.h
-//Af Brian Juul Rasmussen
+// Af Brian Juul Rasmussen
 //
-
 
 #ifndef LP_H
 #define LP_H
@@ -22,15 +21,15 @@ public:
 	LP();
 	~LP();
 
-	bool Run(const string& filnavn, bool trace = false);
+	bool Run(const string &filnavn, bool trace = false);
 	string GetFejlTekst();
-	const vector<string>& GetUligheder();
-	const LPMatrix& GetMatrix();
-	const vector<loesning>& GetBasisLoesning();
+	const vector<string> &GetUligheder();
+	const LPMatrix &GetMatrix();
+	const vector<loesning> &GetBasisLoesning();
 
 protected:
 	bool Scan();
-	void SetFejl(const string& errStr, bool medLinieNr);
+	void SetFejl(const string &errStr, bool medLinieNr);
 	char NextChar();
 
 	bool InError();
@@ -47,7 +46,7 @@ protected:
 	void RelOp();
 	void Num();
 	void Identifier();
-	
+
 	void DoID();
 	void DoNUM();
 	void DoLESS();
@@ -57,14 +56,10 @@ protected:
 	void DoMINUS();
 	void DoSEMICOLON();
 
-	
-	
-	
-	//Attributter
+	// Attributter
 
-	StandardLP* pSLP;
+	StandardLP *pSLP;
 	LPMatrix A;
-	
 
 	SymbolTabel Symboltabel;
 	queue<Token> TokenQueue;
@@ -83,15 +78,12 @@ protected:
 	size_t ulighedNr;
 	size_t restIdx;
 	size_t kunstIdx;
-	
-	
-	vector<loesning> Loesning;
-	
-	string filNavn;		//navn på tekst-fil, der indeholder ulighederne
 
-	
-	ifstream TekstFil;	//input-fil objektet
+	vector<loesning> Loesning;
+
+	string filNavn; // navn pï¿½ tekst-fil, der indeholder ulighederne
+
+	ifstream TekstFil; // input-fil objektet
 };
 
 #endif
-

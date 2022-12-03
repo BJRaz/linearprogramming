@@ -4,23 +4,33 @@
 #define TOKEN_H
 #include "STLdef.h"
 
-typedef enum {BEGIN, ID, NUM, PLUS = '+', MINUS = '-', LESS = '<',GREATER = '>', EQUAL = '=', SEMICOLON = ';', END} 
-			Tokentype;
+typedef enum
+{
+	BEGIN,
+	ID,
+	NUM,
+	PLUS = '+',
+	MINUS = '-',
+	LESS = '<',
+	GREATER = '>',
+	EQUAL = '=',
+	SEMICOLON = ';',
+	END
+} Tokentype;
 
 class Token
 {
 public:
 	Token();
-	
-	void MakeToken(const string& streng);
-	//string GetFejlTekst();
-public:	//Repræsentationen gøres public for direkte access
-	Tokentype tType;	//Tokens type
-	string theToken;	//tokenstrengen fra scan()
-	string strValue;	//tokensværdi hvis det er en streng dvs id
-	double numValue;	//Tokens værdi	hvis der er en numerisk værdi, dvs num
-	//string FejlTekst;	//Indeholder evt en fejltekst
-	
+
+	void MakeToken(const string &streng);
+	// string GetFejlTekst();
+public:				 // Reprï¿½sentationen gï¿½res public for direkte access
+	Tokentype tType; // Tokens type
+	string theToken; // tokenstrengen fra scan()
+	string strValue; // tokensvï¿½rdi hvis det er en streng dvs id
+	double numValue; // Tokens vï¿½rdi	hvis der er en numerisk vï¿½rdi, dvs num
+	// string FejlTekst;	//Indeholder evt en fejltekst
 };
 
 #endif

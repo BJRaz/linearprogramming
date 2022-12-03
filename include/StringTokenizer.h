@@ -8,20 +8,19 @@
 class StringTokenizer
 {
 public:
-	StringTokenizer(const string& source, const string& delimiters = "\n");
+	StringTokenizer(const string &source, const string &delimiters = "\n");
 
 	string NextToken();
-	string NextToken(const string& delimiters);
+	string NextToken(const string &delimiters);
 	bool HasMoreTokens();
 	int CountTokens();
 
 protected:
+	bool IsDelimiter(char tegn); // Privat funktion
 
-	bool IsDelimiter(char tegn);		//Privat funktion
-
-	string tekst;		//Den streng der skal opdeles i tokens
-	string delim;		//delimiters hvorefter strengen skal opdeles
-	int indeks;			//udpeger første ubehandlede tegn i tekst
+	string tekst; // Den streng der skal opdeles i tokens
+	string delim; // delimiters hvorefter strengen skal opdeles
+	int indeks;	  // udpeger fï¿½rste ubehandlede tegn i tekst
 };
 
 #endif

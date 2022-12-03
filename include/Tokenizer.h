@@ -7,16 +7,14 @@
 class StringTokenizer
 {
 public:
-
-//	StringTokenizer();
-	StringTokenizer(const string& source, const string& delimiters = " \n");
+	//	StringTokenizer();
+	StringTokenizer(const string &source, const string &delimiters = " \n");
 	string NextToken();
-	string NextToken(const string& delimiters);
+	string NextToken(const string &delimiters);
 	bool HasMoreTokens();
 	int CountTokens();
 
 protected:
-
 	bool IsDelimiter(char tegn);
 	string tekst;
 	string delim;
@@ -24,4 +22,3 @@ protected:
 };
 
 #endif
-
