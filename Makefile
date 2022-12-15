@@ -3,18 +3,18 @@ CFLAGS=-Iinclude -g
 LD=ld
 LDFLAGS=-lstdc++
 OBJDIR:=bin
-OBJS=$(addprefix $(OBJDIR)/, lpmatrix.o Token.o Tokenizer.o SymbolTabel.o StraffeLP.o StandardLP.o LP.o)
-VPATH=src
+OBJS=$(addprefix $(OBJDIR)/, LPMatrix.o Token.o Tokenizer.o SymbolTabel.o StraffeLP.o StandardLP.o LP.o)
+VPATH=src include
 
-all:	lpmatrix
+all:	$(OBJDIR)/lpmatrix
 
 $(OBJS): | $(OBJDIR)					# order-only prerequisite
 
-$(OBJDIR)/%.o: %.cpp
+$(OBJDIR)/%.o: %.cpp %.h Matrix.h
 	$(CC) -c $(CFLAGS) $< -o $@
 $(OBJDIR):
 	-mkdir $(OBJDIR)
-lpmatrix: test.cpp $(OBJS)
+$(OBJDIR)/lpmatrix: test.cpp $(OBJS) 
 	$(CC) $(CFLAGS) $^ -o $(OBJDIR)/lpmatrix
 clean:
 	-rm -rf bin/

@@ -9,17 +9,25 @@ using std::string;
 void WriteBasisSolution(const vector<loesning> &loesVector);
 void WriteUligheder(const vector<string> &ligninger);
 void WriteMatrix(const LPMatrix LPM);
+void TestLPMatrix();
 
 int main()
 {
+	// TestLPMatrix();
+	// return 0; 
+	
 	LP lp;
-	string LpProblem = "problems/mathhx.dk.txt";
+	string LpProblem = "tests/problems/tryagain.txt";//"problems/Kfk_problem.txt"; 
 	// cout << "Skriv filnavnet med lp-problemet: ";
 	// cin >> LpProblem;
 	cout << endl;
 	if (lp.Run(LpProblem))
 	{
-		WriteMatrix(lp.GetMatrix());
+		LPMatrix l = lp.GetMatrix();
+		cout << "Matrix efter SolveLP: " << endl;
+		cout << l;
+
+		WriteMatrix(l);
 		WriteUligheder(lp.GetUligheder());
 		WriteBasisSolution(lp.GetBasisLoesning());
 	}
@@ -27,6 +35,20 @@ int main()
 		cout << "\nlp.Run(" << LpProblem << ") lykkedes ikke: " << lp.GetFejlTekst() << endl;
 
 	return 0;
+}
+
+void TestLPMatrix() 
+{
+	LPMatrix lpm;
+	lpm.ReadFromFile("tests/matrix/Text2.txt");
+	cout << "Matrix indlst fra fil: " << endl;
+	cout << lpm << endl;
+	StandardLP *lp = new StandardLP(lpm, false);
+	if(lp->SolveLP()) {
+		WriteMatrix(lpm);
+	} else {
+		cout << "Noget gik galt";
+	}
 }
 
 void WriteBasisSolution(const vector<loesning> &loesVector)

@@ -1,0 +1,6 @@
+
++ 1 bukser + 1.5 jakker < 750 ;
++ 2 bukser + 1 jakker < 1000 ;
++ 500 bukser + 400 jakker = 0 ;
+
+

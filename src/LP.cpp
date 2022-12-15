@@ -40,9 +40,9 @@ bool LP::Run(const string &filnavn, bool trace)
 		return false;
 	}
 
-	cout << "HER: " << A << endl;
+	cout << "Matrix efter indlæsning fra ParseAndGenerateCode: " << A << endl;
 	pSLP = new StraffeLP(A, trace);
-	return (pSLP->SolveLP());
+	bOKState = pSLP->SolveLP();
 
 	return bOKState;
 }
@@ -226,25 +226,23 @@ bool LP::Scan()
 		Uligheder.resize(Uligheder.size() - 1);
 
 	nSymbols = Symboltabel.GetNoOfVars();
-	//--------------test udskrift --------------------
-	// cout << "Antal variabler i Symboltabel: " << nSymbols;
 
 	m = nUnequalities;
 	n = nSymbols + nUnequalities + nGreater;
-	//--------------test udskrift --------------------
-	// cout << "\nAntal uligheder(m): " << m;
-	// cout << "\nAntal symboler(n): " << n;
-	// cout << "\n";
 
 	restIdx = nSymbols + 1;
 
 	kunstIdx = n - nGreater + 1;
-	#ifdef PRINTDEBUG
+#ifdef PRINTDEBUG
 	//--------------test udskrift --------------------
+	cout << "Antal variabler i Symboltabel: " << nSymbols;
+	cout << "\nAntal uligheder(m): " << m;
+	cout << "\nAntal symboler(n): " << n;
+	cout << "\n";
 	cout << "\nrestIdx: " << restIdx;
 	cout << "\nkunstIdx: " << kunstIdx;
 	cout << "\n";
-	#endif
+#endif
 	return true;
 }
 
@@ -506,6 +504,8 @@ const vector<loesning> &LP::GetBasisLoesning()
 	for (size_t varnr = 1; varnr <= antalVar; ++varnr)
 	{
 		enVariabel.first = Symboltabel.GetID(varnr);
+		// TODO: bjr dec 2022 - uncommented this otherwise the
+		// result was not shown correctly
 		if (A[0][varnr] == 0)
 			enVariabel.second = 0.0;
 		else
