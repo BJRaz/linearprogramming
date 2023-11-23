@@ -15,7 +15,7 @@ void WriteMatrix(const LPMatrix LPM);
 int main()
 {
 	LP lp;
-	string LpProblem = "problems/finale.txt";
+	string LpProblem = "problems/bomber.txt";
 	//cout << "Skriv filnavnet med lp-problemet: ";
 	//cin >> LpProblem;
 	cout << endl;

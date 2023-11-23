@@ -5,14 +5,14 @@ StraffeLP::StraffeLP(LPMatrix& LPM, bool trace)
            : StandardLP(LPM, trace)
 {
 	nKV = 0;	//antal kunstige variabler 
-	M = 1;		//M sættes til en begyndelse til 1
-	M_KONST = 10;	//jvf. p 67M sættes typisk til 10 gange største forhold
+	M = 1;		//M sï¿½ttes til en begyndelse til 1
+	M_KONST = 10;	//jvf. p 67M sï¿½ttes typisk til 10 gange stï¿½rste forhold
 }
 
 bool StraffeLP::SolveLP()
 {
 	OmformRaekkerMedKunstVar();
-	//Benyttes hvis rækker med kunstige variabler oppstiles med negative b'er
+	//Benyttes hvis rï¿½kker med kunstige variabler oppstiles med negative b'er
 	//
 
 	BestemAntalKunstVar();

@@ -16,6 +16,7 @@ StandardLP::~StandardLP()
 bool StandardLP::SolveLP()
 {
 	//MArker basisvariabler
+	
 	size_t p,q; //R�kke og s�jleindex
 	while(true)
 	{
@@ -102,7 +103,7 @@ void StandardLP::NySimplexTabel(size_t p, size_t q)
 	c=1/pivot;
 	A.ScaleRow(p,c);
 
-	for(int i=1;i<=m+1;++i)
+	for(size_t i=1;i<=m+1;++i)
 		A[i][q] = 0.0;
 	A[p][q]=1.0;
 }

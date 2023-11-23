@@ -3,6 +3,7 @@
         "vector": "cpp",
         "ostream": "cpp",
         "iosfwd": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "utility": "cpp"
     }
 }
