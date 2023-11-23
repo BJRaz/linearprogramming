@@ -16,7 +16,7 @@ StandardLP::~StandardLP()
 bool StandardLP::SolveLP()
 {
 	//MArker basisvariabler
-	
+	MarkerBasisVariabler();
 	size_t p,q; //R�kke og s�jleindex
 	while(true)
 	{
