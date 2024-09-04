@@ -9,7 +9,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/lpmatrix",
+            "program": "${workspaceFolder}/bin/test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

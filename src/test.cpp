@@ -1,16 +1,15 @@
 //--------test.cpp
 
 #include "LP.h"
+#include "StraffeLP.h"
 //#include "STLdef.h"
 //#include "SymbolTabel.h"
 
 using std::string;
 
-
-void WriteBasisSolution(const vector<loesning>& loesVector);
-void WriteUligheder(const vector<string>& ligninger);
+void WriteBasisSolution(const vector<loesning> &loesVector);
+void WriteUligheder(const vector<string> &ligninger);
 void WriteMatrix(const LPMatrix LPM);
-
 
 int main()
 {
@@ -19,28 +18,28 @@ int main()
 	//cout << "Skriv filnavnet med lp-problemet: ";
 	//cin >> LpProblem;
 	cout << endl;
-	if(lp.Run(LpProblem))
+	if (lp.Run(LpProblem))
 	{
 		cout << "Ingen fejl i lexikalsk analyse: " << endl;
-		
+
 		WriteMatrix(lp.GetMatrix());
 		WriteUligheder(lp.GetUligheder());
 		WriteBasisSolution(lp.GetBasisLoesning());
 	}
-	else 
+	else
 		cout << "\nlp.Run(" << LpProblem << ") lykkedes ikke: " << lp.GetFejlTekst() << endl;
 
-	
 	return 0;
 }
 
-void WriteBasisSolution(const vector<loesning>& loesVector)
+void WriteBasisSolution(const vector<loesning> &loesVector)
 {
 	loesning ls;
 	char cs[50], vs[50];
-	cout << endl << "Loesning paa optimeringsproblemet:" << endl;
+	cout << endl
+		 << "Loesning paa optimeringsproblemet:" << endl;
 
-	for(int i=0; i<loesVector.size(); ++i)
+	for (int i = 0; i < loesVector.size(); ++i)
 	{
 		ls = loesVector[i];
 		sprintf(vs, "%-10s", ls.first.data());
@@ -55,17 +54,16 @@ void WriteMatrix(const LPMatrix LPM)
 	cout << LPM;
 }
 
-void WriteUligheder(const vector<string>& ligninger)
+void WriteUligheder(const vector<string> &ligninger)
 {
 	int antal;
 	cout << "LP-problemets uligheder: " << endl;
-	if(!ligninger.empty())
+	if (!ligninger.empty())
 	{
-		antal = ligninger.size()-1;
-		for(size_t i=0;i<antal;++i)
-			cout << "Ulighed nr. " << i+1 << '\t' << ligninger[i] << endl;
+		antal = ligninger.size() - 1;
+		for (size_t i = 0; i < antal; ++i)
+			cout << "Ulighed nr. " << i + 1 << '\t' << ligninger[i] << endl;
 	}
 	else
 		cout << "K-funktion:" << '\t' << ligninger[antal] << endl;
 }
-

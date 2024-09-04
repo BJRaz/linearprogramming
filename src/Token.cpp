@@ -4,38 +4,51 @@
 
 Token::Token()
 {
-	tType = BEGIN;	//Bruges ikke, initializerer blot en veldefineret værdi
+	tType = BEGIN; //Bruges ikke, initializerer blot en veldefineret vï¿½rdi
 	numValue = 0.0;
 	//string - attributterne bliver default tomme
 }
 
-void Token::MakeToken(const string& streng)
+void Token::MakeToken(const string &streng)
 {
-	theToken = streng;	//strengværdien
+	theToken = streng; //strengvï¿½rdien
 
-	switch(streng[0])
+	switch (streng[0])
 	{
-	case '<': tType = LESS;	
+	case '<':
+		tType = LESS;
 		break;
-	case '>': tType = GREATER;	
+	case '>':
+		tType = GREATER;
 		break;
-	case '=': tType = EQUAL; 
+	case '=':
+		tType = EQUAL;
 		break;
-	case ';': tType = SEMICOLON; 
+	case ';':
+		tType = SEMICOLON;
 		break;
-	case '+': tType = PLUS; 
+	case '+':
+		tType = PLUS;
 		break;
-	case '-': tType = MINUS; 
+	case '-':
+		tType = MINUS;
 		break;
-	case '0':case '1':case '2':case'3':case '4':case '5':case '6':case '7':case '8':
-	case '9': 
-		numValue = atof(streng.data());	//alphnumeric to float
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+		numValue = atof(streng.data()); //alphnumeric to float
 		tType = NUM;
-		 break;
-	default:  
+		break;
+	default:
 		strValue = streng;
 		tType = ID;
 		break;
 	}
 }
-

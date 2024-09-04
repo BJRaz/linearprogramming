@@ -2,6 +2,17 @@
 #include "LP.h"
 #include "StraffeLP.h"
 
+/*
+
+BNF:
+
+Ulighed 		::= TermListe <,> NUM
+TermListe 		::= Term HjTermListe
+HjTermListe 	::= +,- TermListe | e
+Term 			::= +,- NUM ID
+NUM 			::= 0...9
+*/
+
 LP::LP()
 {
 	ulighedNr = 0;
@@ -284,7 +295,7 @@ void LP::LpUlighedsliste()
 
 void LP::Ulighed()
 {
-	cout << " - LP::Ulighed() koeres !!\n"; //TEST udskrift
+	cout << "Ulighed() nr " << ulighedNr << ": " << Uligheder.at(ulighedNr - 1) << " koeres !!\n"; //TEST udskrift
 	Termliste();
 	if (!InError())
 		RelOp();
@@ -302,21 +313,18 @@ void LP::Termliste()
 
 void LP::HjTermliste()
 {
-	cout << "LP::HjTermliste koeres!!!\n"; //TEST udskrift
+	cout << " - HjTermliste() koeres!!!\n"; //TEST udskrift
 	if (CurrentToken.tType == PLUS || CurrentToken.tType == MINUS)
 		Termliste();
 	else
 	{
 		//epsilon .. g�r intet
 	}
-	//else
-	//SetFejl...
-	//
-	//
 }
 
 void LP::Term()
 {
+	cout << " - Term() koeres!!!\n"; //TEST udskrift
 	AddOp();
 	if (!InError())
 		Num();
@@ -326,7 +334,7 @@ void LP::Term()
 
 void LP::AddOp()
 {
-	cout << " - LP::AddOP koeres !! \n"; //TEST udskrift
+	cout << " - AddOP koeres !! \n"; //TEST udskrift
 	cout << "	-	CurrentToken type: (" << CurrentToken.theToken << ")\n";
 	cout << "	-	LastToken type: (" << LastToken.theToken << ")\n";
 	if (CurrentToken.tType == PLUS)
@@ -371,6 +379,7 @@ void LP::Identifier()
 
 void LP::DoID()
 {
+	cout << " - - DoID k�rt !! \n";
 	size_t j;
 	//finder strValue i Symboltabel, ret. Index
 	if (Symboltabel.Find(CurrentToken.strValue, j))
@@ -393,12 +402,12 @@ void LP::DoNUM()
 		itis_b_Now = false;
 	}
 	NextToken();
-	cout << " DoNUM k�rt !! \n";
+	cout << " - - DoNUM k�rt !! \n";
 }
 
 void LP::DoLESS()
 {
-	cout << " DoLESS k�rt !! \n";
+	cout << " - - DoLESS k�rt !! \n";
 
 	A[ulighedNr][restIdx] = 1;
 	restIdx++;
@@ -408,7 +417,7 @@ void LP::DoLESS()
 
 void LP::DoGREATER()
 {
-	cout << " DoGREATER k�rt !! \n";
+	cout << " - - DoGREATER k�rt !! \n";
 	A[ulighedNr][restIdx] = -1.0;
 	restIdx++;
 	A[ulighedNr][kunstIdx] = 1.0;
@@ -420,26 +429,26 @@ void LP::DoGREATER()
 
 void LP::DoEQUAL()
 {
-	cout << " DoEQUAL koeres !! \n";
+	cout << " - - DoEQUAL koeres !! \n";
 	itis_b_Now = true;
 	NextToken();
 }
 
 void LP::DoPLUS()
 {
-	cout << " DoPLUS koeres !! \n";
+	cout << " - - DoPLUS koeres !! \n";
 	NextToken();
 }
 
 void LP::DoMINUS()
 {
-	cout << " DoMINUS koeres !! \n";
+	cout << " - - DoMINUS koeres !! \n";
 	NextToken();
 }
 
 void LP::DoSEMICOLON()
 {
-	cout << "\n DoSEMICOLON koeres !! \n";
+	cout << " - - DoSEMICOLON koeres !! \n";
 	++ulighedNr;
 	NextToken();
 }

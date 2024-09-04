@@ -4,6 +4,9 @@
         "ostream": "cpp",
         "iosfwd": "cpp",
         "algorithm": "cpp",
-        "utility": "cpp"
-    }
+        "utility": "cpp",
+        "__string": "cpp",
+        "functional": "cpp"
+    },
+    "makefile.configurations": []
 }

@@ -87,7 +87,7 @@ protected:
 	
 	vector<loesning> Loesning;
 	
-	string filNavn;		//navn på tekst-fil, der indeholder ulighederne
+	string filNavn;		//navn pï¿½ tekst-fil, der indeholder ulighederne
 
 	
 	ifstream TekstFil;	//input-fil objektet
