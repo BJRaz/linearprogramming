@@ -67,7 +67,7 @@
 
           //redefinition af Resize:
           void Resize(size_t LignAndKrit, size_t VarsAndB);  
-          void Resize(size_t LignAndKrit, size_t VarsAndB, const double Value) {/*tom*/}; 
+          // void Resize(size_t LignAndKrit, size_t VarsAndB, const double Value) {/*tom*/}; 
           
           //bi-implikative lignings operationer:
           void SwapRows (size_t row1, size_t row2);

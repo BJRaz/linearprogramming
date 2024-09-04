@@ -56,7 +56,7 @@ void WriteMatrix(const LPMatrix LPM)
 
 void WriteUligheder(const vector<string> &ligninger)
 {
-	int antal;
+	int antal = 0;
 	cout << "LP-problemets uligheder: " << endl;
 	if (!ligninger.empty())
 	{

@@ -1,20 +1,20 @@
       /*
       File        : STLdef.h
-      Programmør  : ToHø
+      Programmï¿½r  : ToHï¿½
       Rettet      : 08/11 1999
 
       Beskrivelse :
       Filen er beregnet til include af diverse STL-filer til LP
       med explicite deklarationer af anvendte STL-komponenter.
-      Oversættelsesmæssigt kan det nok ikke betale sig, men ved
-      udviklingen af LP-klasserne gør det livet lidt lettere.
+      Oversï¿½ttelsesmï¿½ssigt kan det nok ikke betale sig, men ved
+      udviklingen af LP-klasserne gï¿½r det livet lidt lettere.
 
       Anvendes ved blot at inkludere denne fil i en klasses headerfil, 
-      hvor STL bruges i klassen (også cpp-filen).
+      hvor STL bruges i klassen (ogsï¿½ cpp-filen).
       */
 
       //undertryk warning C4786 og 4788!!
-      #pragma warning (disable: 4786 4788) 
+      //#pragma warning (disable: 4786 4788) 
 
       #include <vector>
       #include <string>

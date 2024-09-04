@@ -1,5 +1,5 @@
 CC=clang++
-CFLAGS=-Iinclude -g
+CFLAGS=-Iinclude -g -Wall
 LD=ld
 LDFLAGS=-lstdc++
 OBJDIR:=bin
@@ -15,9 +15,9 @@ $(OBJDIR)/%.o: %.cpp
 $(OBJDIR):
 	-mkdir $(OBJDIR)
 test: test.cpp $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $(OBJDIR)/test
+	$(CC) $(CFLAGS) $^ -o test
 clean:
-	-rm -rf bin/
+	-rm -rf $(OBJDIR) test test.dSYM
 
 
 
