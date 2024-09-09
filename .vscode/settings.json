@@ -6,7 +6,10 @@
         "algorithm": "cpp",
         "utility": "cpp",
         "__string": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "string": "cpp",
+        "fstream": "cpp"
     },
-    "makefile.configurations": []
+    "makefile.configurations": [],
+    "makefile.configureOnOpen": false
 }

@@ -1,23 +1,28 @@
+ARCHIVE=$(OBJDIR)/liblp.a
+BUILDDIR=build
 CC=clang++
 CFLAGS=-Iinclude -g -Wall
-LD=ld
-LDFLAGS=-lstdc++
 OBJDIR:=bin
 OBJS=$(addprefix $(OBJDIR)/, lpmatrix.o Token.o Tokenizer.o SymbolTabel.o StraffeLP.o StandardLP.o LP.o)
 VPATH=src
 
-all:	test
+all:	$(BUILDDIR)/test
 
-$(OBJS): | $(OBJDIR)					# order-only prerequisite
+$(OBJS): | $(OBJDIR) $(BUILDDIR) 					# order-only prerequisite
 
 $(OBJDIR)/%.o: %.cpp
 	$(CC) -c $(CFLAGS) $< -o $@
 $(OBJDIR):
 	-mkdir $(OBJDIR)
-test: test.cpp $(OBJS)
-	$(CC) $(CFLAGS) $^ -o test
+$(BUILDDIR):
+	-mkdir $(BUILDDIR)
+$(BUILDDIR)/test: test.cpp $(ARCHIVE)
+	$(CC) $(CFLAGS) $(ARCHIVE) $^ -o $@
 clean:
 	-rm -rf $(OBJDIR) test test.dSYM
-
+	-rm -rf $(BUILDDIR)
+$(ARCHIVE):	$(OBJS)
+	ar -r $(ARCHIVE) $(OBJS)
+ 
 
 

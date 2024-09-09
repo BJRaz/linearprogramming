@@ -57,6 +57,7 @@ protected:
 	void DoMINUS();
 	void DoSEMICOLON();
 
+	void Trace(const string &tracestr);
 	
 	
 	
@@ -75,6 +76,7 @@ protected:
 
 	bool bOKState;
 	bool itis_b_Now;
+	bool trace;
 
 	string FejlTekst;
 	size_t m;

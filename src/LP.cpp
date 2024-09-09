@@ -6,11 +6,12 @@
 
 BNF:
 
-Ulighed 		::= TermListe <,> NUM
-TermListe 		::= Term HjTermListe
-HjTermListe 	::= +,- TermListe | e
-Term 			::= +,- NUM ID
+<ulighed> 		::= <termliste> < NUM | <termliste> > NUM
+<termliste> 	::= <term> <hjtermliste>
+<hjtermliste> 	::= + <termliste> | - <termliste> | e
+<term> 			::= + NUM ID | - NUM ID
 NUM 			::= 0...9
+ID				::= a..x
 */
 
 LP::LP()
@@ -32,6 +33,7 @@ LP::~LP()
 
 bool LP::Run(const string &filnavn, bool trace)
 {
+	this->trace = trace;
 	filNavn = filnavn;
 	Uligheder.clear();
 	bOKState = true;
@@ -79,8 +81,8 @@ char LP::NextChar()
 
 bool LP::Scan()
 {
-
-	TekstFil.open(filNavn.data());
+	
+	TekstFil.open(filNavn.data(), std::ios::in);
 
 	if (!TekstFil.is_open())
 	{
@@ -295,7 +297,8 @@ void LP::LpUlighedsliste()
 
 void LP::Ulighed()
 {
-	cout << "Ulighed() nr " << ulighedNr << ": " << Uligheder.at(ulighedNr - 1) << " koeres !!\n"; //TEST udskrift
+	
+	//Trace("Ulighed() nr " + ulighedNr + ": " + Uligheder.at(ulighedNr - 1) + " koeres !!\n"); 
 	Termliste();
 	if (!InError())
 		RelOp();
@@ -305,7 +308,7 @@ void LP::Ulighed()
 
 void LP::Termliste()
 {
-	cout << " - Termliste() koeres !!\n"; //TEST udskrift
+	Trace(" - Termliste() koeres !!\n"); 
 	Term();
 	if (!InError())
 		HjTermliste();
@@ -313,7 +316,7 @@ void LP::Termliste()
 
 void LP::HjTermliste()
 {
-	cout << " - HjTermliste() koeres!!!\n"; //TEST udskrift
+	Trace(" - HjTermliste() koeres!!!\n"); 
 	if (CurrentToken.tType == PLUS || CurrentToken.tType == MINUS)
 		Termliste();
 	else
@@ -324,7 +327,7 @@ void LP::HjTermliste()
 
 void LP::Term()
 {
-	cout << " - Term() koeres!!!\n"; //TEST udskrift
+	Trace(" - Term() koeres!!!\n"); 
 	AddOp();
 	if (!InError())
 		Num();
@@ -334,9 +337,9 @@ void LP::Term()
 
 void LP::AddOp()
 {
-	cout << " - AddOP koeres !! \n"; //TEST udskrift
-	cout << "	-	CurrentToken type: (" << CurrentToken.theToken << ")\n";
-	cout << "	-	LastToken type: (" << LastToken.theToken << ")\n";
+	Trace(" - AddOP koeres !! \n"); 
+	Trace("	-	CurrentToken type: (" + CurrentToken.theToken + ")\n");
+	Trace("	-	LastToken type: (" + LastToken.theToken + ")\n");
 	if (CurrentToken.tType == PLUS)
 		DoPLUS();
 	else if (CurrentToken.tType == MINUS)
@@ -379,7 +382,7 @@ void LP::Identifier()
 
 void LP::DoID()
 {
-	cout << " - - DoID k�rt !! \n";
+	Trace(" - - DoID k�rt !! \n");
 	size_t j;
 	//finder strValue i Symboltabel, ret. Index
 	if (Symboltabel.Find(CurrentToken.strValue, j))
@@ -402,12 +405,12 @@ void LP::DoNUM()
 		itis_b_Now = false;
 	}
 	NextToken();
-	cout << " - - DoNUM k�rt !! \n";
+	Trace(" - - DoNUM k�rt !! \n");
 }
 
 void LP::DoLESS()
 {
-	cout << " - - DoLESS k�rt !! \n";
+	Trace(" - - DoLESS k�rt !! \n");
 
 	A[ulighedNr][restIdx] = 1;
 	restIdx++;
@@ -417,7 +420,7 @@ void LP::DoLESS()
 
 void LP::DoGREATER()
 {
-	cout << " - - DoGREATER k�rt !! \n";
+	Trace(" - - DoGREATER k�rt !! \n");
 	A[ulighedNr][restIdx] = -1.0;
 	restIdx++;
 	A[ulighedNr][kunstIdx] = 1.0;
@@ -429,28 +432,34 @@ void LP::DoGREATER()
 
 void LP::DoEQUAL()
 {
-	cout << " - - DoEQUAL koeres !! \n";
+	Trace(" - - DoEQUAL koeres !! \n");
 	itis_b_Now = true;
 	NextToken();
 }
 
 void LP::DoPLUS()
 {
-	cout << " - - DoPLUS koeres !! \n";
+	Trace(" - - DoPLUS koeres !! \n");
 	NextToken();
 }
 
 void LP::DoMINUS()
 {
-	cout << " - - DoMINUS koeres !! \n";
+	Trace("DoMINUS koeres !! \n");
 	NextToken();
 }
 
 void LP::DoSEMICOLON()
 {
-	cout << " - - DoSEMICOLON koeres !! \n";
+	
 	++ulighedNr;
 	NextToken();
+}
+
+void LP::Trace(const string &tracestr)
+{
+	if(trace)
+		cout << tracestr;
 }
 
 bool LP::InError()
