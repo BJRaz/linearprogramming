@@ -1,6 +1,7 @@
 //--------test.cpp
 
 #include "LP.h"
+#include "StraffeLP.h"
 //#include "STLdef.h"
 //#include "SymbolTabel.h"
 
@@ -9,7 +10,6 @@ using std::string;
 void WriteBasisSolution(const vector<loesning> &loesVector);
 void WriteUligheder(const vector<string> &ligninger);
 void WriteMatrix(const LPMatrix LPM);
-void TestLPMatrix();
 
 int main()
 {
@@ -17,17 +17,15 @@ int main()
 	// return 0; 
 	
 	LP lp;
-	string LpProblem = "tests/problems/tryagain.txt";//"problems/Kfk_problem.txt"; 
-	// cout << "Skriv filnavnet med lp-problemet: ";
-	// cin >> LpProblem;
+	string LpProblem = "problems/bags.txt";
+	//cout << "Skriv filnavnet med lp-problemet: ";
+	//cin >> LpProblem;
 	cout << endl;
 	if (lp.Run(LpProblem))
 	{
-		LPMatrix l = lp.GetMatrix();
-		cout << "Matrix efter SolveLP: " << endl;
-		cout << l;
-
-		WriteMatrix(l);
+		cout << "\nlp.Run(" << LpProblem << ") lykkedes: " << endl;
+		
+		WriteMatrix(lp.GetMatrix());
 		WriteUligheder(lp.GetUligheder());
 		WriteBasisSolution(lp.GetBasisLoesning());
 	}
@@ -37,25 +35,12 @@ int main()
 	return 0;
 }
 
-void TestLPMatrix() 
-{
-	LPMatrix lpm;
-	lpm.ReadFromFile("tests/matrix/Text2.txt");
-	cout << "Matrix indlst fra fil: " << endl;
-	cout << lpm << endl;
-	StandardLP *lp = new StandardLP(lpm, false);
-	if(lp->SolveLP()) {
-		WriteMatrix(lpm);
-	} else {
-		cout << "Noget gik galt";
-	}
-}
-
 void WriteBasisSolution(const vector<loesning> &loesVector)
 {
 	loesning ls;
 	char cs[50], vs[50];
-	cout << endl << "Loesning paa optimeringsproblemet:" << endl;
+	cout << endl
+		 << "Loesning paa optimeringsproblemet:" << endl;
 
 	for (int i = 0; i < loesVector.size(); ++i)
 	{
@@ -74,7 +59,7 @@ void WriteMatrix(const LPMatrix LPM)
 
 void WriteUligheder(const vector<string> &ligninger)
 {
-	int antal;
+	int antal = 0;
 	cout << "LP-problemets uligheder: " << endl;
 	if (!ligninger.empty())
 	{

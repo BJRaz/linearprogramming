@@ -64,14 +64,14 @@ public:
   LPMatrix(size_t LignAndKrit = 0, size_t VarsAndB = 0);
   ~LPMatrix(){};
 
-  // redefinition af Resize:
-  void Resize(size_t LignAndKrit, size_t VarsAndB);
-  void Resize(size_t LignAndKrit, size_t VarsAndB, const double Value){/*tom*/};
-
-  // bi-implikative lignings operationer:
-  void SwapRows(size_t row1, size_t row2);
-  void AddToRow(size_t row1, size_t row2, double c);
-  void ScaleRow(size_t row, double c);
+          //redefinition af Resize:
+          void Resize(size_t LignAndKrit, size_t VarsAndB);  
+          // void Resize(size_t LignAndKrit, size_t VarsAndB, const double Value) {/*tom*/}; 
+          
+          //bi-implikative lignings operationer:
+          void SwapRows (size_t row1, size_t row2);
+          void AddToRow (size_t row1, size_t row2, double c);
+          void ScaleRow (size_t row, double c);
 
   // Indl�sning fra tekstfil af ligningssystem:
   void ReadFromFile(const string &filnavn);

@@ -3,6 +3,18 @@
 #include "LP.h"
 #include "StraffeLP.h"
 
+/*
+
+BNF:
+
+<ulighed> 		::= <termliste> < NUM | <termliste> > NUM
+<termliste> 	::= <term> <hjtermliste>
+<hjtermliste> 	::= + <termliste> | - <termliste> | e
+<term> 			::= + NUM ID | - NUM ID
+NUM 			::= 0...9
+ID				::= a..x
+*/
+
 LP::LP()
 {
 	ulighedNr = 0;
@@ -16,12 +28,13 @@ LP::~LP()
 	if (pSLP != NULL)
 	{
 		delete pSLP;
-		pSLP = NULL; // For at undg� dangling reference
+		pSLP = NULL; //For at undg� dangling reference
 	}
 }
 
 bool LP::Run(const string &filnavn, bool trace)
 {
+	this->trace = trace;
 	filNavn = filnavn;
 	Uligheder.clear();
 	bOKState = true;
@@ -30,19 +43,25 @@ bool LP::Run(const string &filnavn, bool trace)
 	if (!Scan())
 		return false;
 	else
-		cout << "\nSCAN LYKKEDES: \n";
+		cout << "Ingen fejl i lexikalsk analyse: " << endl;
 
-	A.Resize(m + 1, n + 1); // A s�ttes til rigtig size f�r kodegenerering
+
+	A.Resize(m + 1, n + 1); //A s�ttes til rigtig size f�r kodegenerering
 
 	if (!ParseAndGenerateCode())
 	{
 		SetFejl("Parse fejl: \n", false);
 		return false;
-	}
+	} else
+		cout << "Ingen fejl i syntaktisk analyse: " << endl;	
 
-	cout << "Matrix efter indlæsning fra ParseAndGenerateCode: " << A << endl;
+
+	// TODO:
+	cout << "Matricen før løsningen er gennemført: " << A << endl;
+
 	pSLP = new StraffeLP(A, trace);
-	bOKState = pSLP->SolveLP();
+	if (!pSLP->SolveLP())
+		SetFejl("Mulighedsomraadet er ubegraenset!", false);
 
 	return bOKState;
 }
@@ -52,12 +71,12 @@ const LPMatrix &LP::GetMatrix()
 	return A;
 }
 
-const char ETX = '\3'; // Grim variabel for class LP
+const char ETX = '\3'; //Grim variabel for class LP
 
 char LP::NextChar()
 {
 	char ch;
-	// hvis filen ikke er EOF l�ses et ReadAheadChar
+	//hvis filen ikke er EOF l�ses et ReadAheadChar
 	if (TekstFil.get(ch))
 		return ch;
 	// EOF returner ETX = ASCII '\3'
@@ -66,8 +85,8 @@ char LP::NextChar()
 
 bool LP::Scan()
 {
-
-	TekstFil.open(filNavn.data());
+	
+	TekstFil.open(filNavn.data(), std::ios::in);
 
 	if (!TekstFil.is_open())
 	{
@@ -82,7 +101,7 @@ bool LP::Scan()
 	string streng;
 
 	string whitespace(" \n\t");
-	const int npos = -1; // Markerer no position found
+	const int npos = -1; //Markerer no position found
 
 	char ReadAheadChar = NextChar();
 
@@ -109,26 +128,26 @@ bool LP::Scan()
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
 				ReadAheadChar = NextChar();
-				break; // case...
+				break; //case...
 			case '-':
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
 				ReadAheadChar = NextChar();
-				break; // case...
+				break; //case...
 			case '<':
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
 				//++nGreater;
 				++nUnequalities;
 				ReadAheadChar = NextChar();
-				break; // case...
+				break; //case...
 			case '>':
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
 				++nUnequalities;
 				++nGreater;
 				ReadAheadChar = NextChar();
-				break; // case ...
+				break; //case ...
 			case '=':
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
@@ -156,7 +175,7 @@ bool LP::Scan()
 						ReadAheadChar = NextChar();
 					}
 					else
-						break; // while...
+						break; //while...
 
 				if (ReadAheadChar == '.')
 				{
@@ -164,9 +183,9 @@ bool LP::Scan()
 					Uligheder[ulighedNr - 1] += ReadAheadChar;
 					ReadAheadChar = NextChar();
 
-					if (!isdigit(ReadAheadChar)) // check tegn efter '.'
+					if (!isdigit(ReadAheadChar)) //check tegn efter '.'
 					{
-						Uligheder[ulighedNr - 1] += ReadAheadChar; // inds�t fejltegn
+						Uligheder[ulighedNr - 1] += ReadAheadChar; //inds�t fejltegn
 						SetFejl("'.' skal efterfoelges af ciffer!", true);
 						return false;
 					}
@@ -179,11 +198,11 @@ bool LP::Scan()
 								ReadAheadChar = NextChar();
 							}
 							else
-								break; // while
-				}					   // if (ReadAheadChar..
+								break; //while
+				}					   //if (ReadAheadChar..
 
-				Uligheder[ulighedNr - 1] += ' '; // Space efter NUM
-				break;							 // case
+				Uligheder[ulighedNr - 1] += ' '; //Space efter NUM
+				break;							 //case
 
 			default:
 				if (isalpha(ReadAheadChar))
@@ -202,7 +221,7 @@ bool LP::Scan()
 							break;
 
 					Uligheder[ulighedNr - 1] += ' ';
-					// Inds�t ID i symboltabel
+					//Inds�t ID i symboltabel
 					Symboltabel.InsertID(streng);
 				}
 				else
@@ -211,14 +230,14 @@ bool LP::Scan()
 					SetFejl("Ulovligt tegn!", true);
 					return false;
 				}
-			} // switch (ReadAheadChar)
-			// lav det token der er indeholdt i streng
+			} //switch (ReadAheadChar)
+			//lav det token der er indeholdt i streng
 			CurrentToken.MakeToken(streng);
-			// S�t token i k�en
+			//S�t token i k�en
 			TokenQueue.push(CurrentToken);
-		} // if/whitespace.find.....
+		} //if/whitespace.find.....
 
-	} // while ReadAheadChar != ETX
+	} //while ReadAheadChar != ETX
 
 	TekstFil.close();
 
@@ -226,9 +245,15 @@ bool LP::Scan()
 		Uligheder.resize(Uligheder.size() - 1);
 
 	nSymbols = Symboltabel.GetNoOfVars();
+	//--------------test udskrift --------------------
+	//cout << "Antal variabler i Symboltabel: " << nSymbols;
 
 	m = nUnequalities;
 	n = nSymbols + nUnequalities + nGreater;
+	//--------------test udskrift --------------------
+	//cout << "\nAntal uligheder(m): " << m;
+	//cout << "\nAntal symboler(n): " << n;
+	//cout << "\n";
 
 	restIdx = nSymbols + 1;
 
@@ -281,9 +306,10 @@ void LP::LpUlighedsliste()
 
 void LP::Ulighed()
 {
-	#ifdef PRINTDEBUG
-	cout << " - LP::Ulighed() koeres !!\n"; // TEST udskrift
-	#endif
+	
+	Trace("Ulighed() nr " + ulighedNr);
+	Trace(": " + Uligheder.at(ulighedNr - 1));
+	Trace(" koeres !!\n"); 
 	Termliste();
 	if (!InError())
 		RelOp();
@@ -293,9 +319,7 @@ void LP::Ulighed()
 
 void LP::Termliste()
 {
-	#ifdef PRINTDEBUG
-	cout << " - Termliste() koeres !!\n"; // TEST udskrift
-	#endif
+	Trace(" - Termliste() koeres !!\n"); 
 	Term();
 	if (!InError())
 		HjTermliste();
@@ -303,23 +327,18 @@ void LP::Termliste()
 
 void LP::HjTermliste()
 {
-	#ifdef PRINTDEBUG
-	cout << "LP::HjTermliste koeres!!!\n"; // TEST udskrift
-	#endif
+	Trace(" - HjTermliste() koeres!!!\n"); 
 	if (CurrentToken.tType == PLUS || CurrentToken.tType == MINUS)
 		Termliste();
 	else
 	{
 		// epsilon .. g�r intet
 	}
-	// else
-	// SetFejl...
-	//
-	//
 }
 
 void LP::Term()
 {
+	Trace(" - Term() koeres!!!\n"); 
 	AddOp();
 	if (!InError())
 		Num();
@@ -329,11 +348,9 @@ void LP::Term()
 
 void LP::AddOp()
 {
-	#ifdef PRINTDEBUG
-	cout << " - LP::AddOP koeres !! \n"; // TEST udskrift
-	cout << "	-	CurrentToken type: (" << CurrentToken.theToken << ")\n";
-	cout << "	-	LastToken type: (" << LastToken.theToken << ")\n";
-	#endif
+	Trace(" - AddOP koeres !! \n"); 
+	Trace("	-	CurrentToken type: (" + CurrentToken.theToken + ")\n");
+	Trace("	-	LastToken type: (" + LastToken.theToken + ")\n");
 	if (CurrentToken.tType == PLUS)
 		DoPLUS();
 	else if (CurrentToken.tType == MINUS)
@@ -376,8 +393,9 @@ void LP::Identifier()
 
 void LP::DoID()
 {
+	Trace(" - - DoID k�rt !! \n");
 	size_t j;
-	// finder strValue i Symboltabel, ret. Index
+	//finder strValue i Symboltabel, ret. Index
 	if (Symboltabel.Find(CurrentToken.strValue, j))
 	{
 		A[ulighedNr][j] = LastToken.numValue;
@@ -389,25 +407,22 @@ void LP::DoID()
 
 void LP::DoNUM()
 {
-	if (LastToken.tType == MINUS) // venstre side, minus foran koefficient
+	if (LastToken.tType == MINUS) //venstre side, minus foran koefficient
 		CurrentToken.numValue = -CurrentToken.numValue;
-	// ved fortegn PLUS foretages intet
-	if (itis_b_Now) // tallet p� h�jre side
+	//ved fortegn PLUS foretages intet
+	if (itis_b_Now) //tallet p� h�jre side
 	{
 		A[ulighedNr][n + 1] = CurrentToken.numValue;
 		itis_b_Now = false;
 	}
 	NextToken();
-	#ifdef PRINTDEBUG
-	cout << " DoNUM k�rt !! \n";
-	#endif
+	Trace(" - - DoNUM k�rt !! \n");
 }
 
 void LP::DoLESS()
 {
-	#ifdef PRINTDEBUG
-	cout << " DoLESS k�rt !! \n";
-	#endif
+	Trace(" - - DoLESS k�rt !! \n");
+
 	A[ulighedNr][restIdx] = 1;
 	restIdx++;
 	itis_b_Now = true;
@@ -416,9 +431,7 @@ void LP::DoLESS()
 
 void LP::DoGREATER()
 {
-	#ifdef PRINTDEBUG
-	cout << " DoGREATER k�rt !! \n";
-	#endif
+	Trace(" - - DoGREATER k�rt !! \n");
 	A[ulighedNr][restIdx] = -1.0;
 	restIdx++;
 	A[ulighedNr][kunstIdx] = 1.0;
@@ -430,36 +443,34 @@ void LP::DoGREATER()
 
 void LP::DoEQUAL()
 {
-	#ifdef PRINTDEBUG
-	cout << " DoEQUAL koeres !! \n";
-	#endif
+	Trace(" - - DoEQUAL koeres !! \n");
 	itis_b_Now = true;
 	NextToken();
 }
 
 void LP::DoPLUS()
 {
-	#ifdef PRINTDEBUG
-	cout << " DoPLUS koeres !! \n";
-	#endif
+	Trace(" - - DoPLUS koeres !! \n");
 	NextToken();
 }
 
 void LP::DoMINUS()
 {
-	#ifdef PRINTDEBUG
-	cout << " DoMINUS koeres !! \n";
-	#endif
+	Trace("DoMINUS koeres !! \n");
 	NextToken();
 }
 
 void LP::DoSEMICOLON()
 {
-	#ifdef PRINTDEBUG
-	cout << "\n DoSEMICOLON koeres !! \n";
-	#endif
+	
 	++ulighedNr;
 	NextToken();
+}
+
+void LP::Trace(const string &tracestr)
+{
+	if(trace)
+		cout << tracestr;
 }
 
 bool LP::InError()
@@ -485,8 +496,8 @@ bool LP::ParseAndGenerateCode()
 	// NextToken();		symbol-lookahead
 	// if(CurrentToken.tType == END)
 	// 	SetFejl("Der er ingen symboler der kan parses",false);   //minus linienummer
-	if(!InError())
-		LpUlighedsliste();
+	// if(!InError())
+	LpUlighedsliste();
 	return bOKState;
 }
 
@@ -504,8 +515,6 @@ const vector<loesning> &LP::GetBasisLoesning()
 	for (size_t varnr = 1; varnr <= antalVar; ++varnr)
 	{
 		enVariabel.first = Symboltabel.GetID(varnr);
-		// TODO: bjr dec 2022 - uncommented this otherwise the
-		// result was not shown correctly
 		if (A[0][varnr] == 0)
 			enVariabel.second = 0.0;
 		else

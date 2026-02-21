@@ -26,7 +26,8 @@ void SymbolTabel::InsertID(const string& IdName)
 }*/
 
 void SymbolTabel::InsertID(const string &IdName)
-{ /*
+{
+	/*
 
 	 size_t i;
 	 string local;
@@ -73,7 +74,7 @@ bool SymbolTabel::Find(const string &id, size_t &LPMidx)
 	string local;
 	local = id;
 	SymbolTabel::MakeUpper(local);
-	for (size_t i = 0; i < tabel.size(); ++i) // Test hvis variablen eksisterer
+	for (size_t i = 0; i < tabel.size(); ++i) //Test hvis variablen eksisterer
 	{
 		if (local == tabel[i])
 		{

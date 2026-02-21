@@ -4,9 +4,9 @@
 StraffeLP::StraffeLP(LPMatrix &LPM, bool trace)
 	: StandardLP(LPM, trace)
 {
-	nKV = 0;	  // antal kunstige variabler
-	M = 1;		  // M s�ttes til en begyndelse til 1
-	M_KONST = 10; // jvf. p 67M s�ttes typisk til 10 gange st�rste forhold
+	nKV = 0;	  //antal kunstige variabler
+	M = 1;		  //M s�ttes til en begyndelse til 1
+	M_KONST = 10; //jvf. p 67M s�ttes typisk til 10 gange st�rste forhold
 }
 
 bool StraffeLP::SolveLP()

@@ -56,7 +56,11 @@ protected:
 	void DoMINUS();
 	void DoSEMICOLON();
 
-	// Attributter
+	void Trace(const string &tracestr);
+	
+	
+	
+	//Attributter
 
 	StandardLP *pSLP;
 	LPMatrix A;
@@ -70,6 +74,7 @@ protected:
 
 	bool bOKState;
 	bool itis_b_Now;
+	bool trace;
 
 	string FejlTekst;
 	size_t m;

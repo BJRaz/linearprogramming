@@ -4,14 +4,14 @@
 
 Token::Token()
 {
-	tType = BEGIN; // Bruges ikke, initializerer blot en veldefineret v�rdi
+	tType = BEGIN; //Bruges ikke, initializerer blot en veldefineret v�rdi
 	numValue = 0.0;
 	// string - attributterne bliver default tomme
 }
 
 void Token::MakeToken(const string &streng)
 {
-	theToken = streng; // strengv�rdien
+	theToken = streng; //strengv�rdien
 
 	switch (streng[0])
 	{
@@ -43,7 +43,7 @@ void Token::MakeToken(const string &streng)
 	case '7':
 	case '8':
 	case '9':
-		numValue = atof(streng.data()); // alphnumeric to float
+		numValue = atof(streng.data()); //alphnumeric to float
 		tType = NUM;
 		break;
 	default:

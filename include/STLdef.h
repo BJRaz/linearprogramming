@@ -13,8 +13,8 @@ Anvendes ved blot at inkludere denne fil i en klasses headerfil,
 hvor STL bruges i klassen (ogs� cpp-filen).
 */
 
-// undertryk warning C4786 og 4788!!
-#pragma warning(disable : 4786 4788)
+      //undertryk warning C4786 og 4788!!
+      //#pragma warning (disable: 4786 4788) 
 
 #include <vector>
 #include <string>

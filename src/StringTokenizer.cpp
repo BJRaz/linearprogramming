@@ -40,11 +40,11 @@ int StringTokenizer::CountTokens()
 {
 	int antal;
 	/*
-		for(int i=indeks;i<tekst.size();++i)
-		{
-			if(tekst[i]==delim)
-				antal++;
-		}*/
+	for(int i=indeks;i<tekst.size();++i)
+	{
+		if(tekst[i]==delim)
+			antal++;
+	}*/
 	return antal;
 }
 

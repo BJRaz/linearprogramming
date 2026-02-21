@@ -9,14 +9,18 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/lpmatrix",
+            "program": "${workspaceFolder}/build/test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "make build"
+            "preLaunchTask": "make build",
+            "setupCommands": [{
+                "text": "settings set target.process.thread.step-avoid-regexp \"\"",
+                "description": "Enable stepping into STL"
+            }]
         }
     ]
 }
