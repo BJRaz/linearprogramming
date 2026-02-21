@@ -8,7 +8,8 @@
         "__string": "cpp",
         "functional": "cpp",
         "string": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "unordered_map": "cpp"
     },
     "makefile.configurations": [],
     "makefile.configureOnOpen": false

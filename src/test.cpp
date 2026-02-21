@@ -20,8 +20,8 @@ int main()
 	cout << endl;
 	if (lp.Run(LpProblem))
 	{
-		cout << "Ingen fejl i lexikalsk analyse: " << endl;
-
+		cout << "\nlp.Run(" << LpProblem << ") lykkedes: " << endl;
+		
 		WriteMatrix(lp.GetMatrix());
 		WriteUligheder(lp.GetUligheder());
 		WriteBasisSolution(lp.GetBasisLoesning());

@@ -42,7 +42,8 @@ bool LP::Run(const string &filnavn, bool trace)
 	if (!Scan())
 		return false;
 	else
-		cout << "\nSCAN LYKKEDES: \n";
+		cout << "Ingen fejl i lexikalsk analyse: " << endl;
+
 
 	A.Resize(m + 1, n + 1); //A s�ttes til rigtig size f�r kodegenerering
 
@@ -50,10 +51,12 @@ bool LP::Run(const string &filnavn, bool trace)
 	{
 		cout << "\nParse fejl: \n";
 		return false;
-	}
+	} else
+		cout << "Ingen fejl i syntaktisk analyse: " << endl;	
+
 
 	// TODO:
-	//cout << "HER: " << A << endl;
+	cout << "Matricen før løsningen er gennemført: " << A << endl;
 
 	pSLP = new StraffeLP(A, trace);
 	if (!pSLP->SolveLP())
@@ -298,7 +301,9 @@ void LP::LpUlighedsliste()
 void LP::Ulighed()
 {
 	
-	//Trace("Ulighed() nr " + ulighedNr + ": " + Uligheder.at(ulighedNr - 1) + " koeres !!\n"); 
+	Trace("Ulighed() nr " + ulighedNr);
+	Trace(": " + Uligheder.at(ulighedNr - 1));
+	Trace(" koeres !!\n"); 
 	Termliste();
 	if (!InError())
 		RelOp();
