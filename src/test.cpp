@@ -37,17 +37,19 @@ int main()
 
 void WriteBasisSolution(const vector<loesning> &loesVector)
 {
-	loesning ls;
-	char cs[50], vs[50];
-	cout << endl
-		 << "Loesning paa optimeringsproblemet:" << endl;
-
-	for (int i = 0; i < loesVector.size(); ++i)
+	cout << endl << "Loesning paa optimeringsproblemet:" << endl;
+	if (loesVector.empty())
 	{
-		ls = loesVector[i];
-		sprintf(vs, "%-10s", ls.first.data());
-		sprintf(cs, "%8.2f", ls.second);
-		cout << vs << " = " << cs << endl;
+		cout << "\tIngen loesning tilgaengelig." << endl;
+		return;
+	}
+
+	for (const auto &ls : loesVector)
+	{
+		// ls.first assumed to be a string-like name, ls.second a numeric value
+		std::cout << std::left << std::setw(10) << ls.first
+				  << " = " << std::right << std::setw(8)
+				  << std::fixed << std::setprecision(2) << ls.second << std::endl;
 	}
 }
 

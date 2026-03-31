@@ -6,7 +6,7 @@ OBJDIR:=bin
 OBJS=$(addprefix $(OBJDIR)/, LPMatrix.o Token.o Tokenizer.o SymbolTabel.o StraffeLP.o StandardLP.o LP.o)
 VPATH=src include
 
-//all:	$(BUILDDIR)/test
+# Default build target
 all:	$(OBJDIR)/lpmatrix
 
 $(OBJS): | $(OBJDIR) $(BUILDDIR) 					# order-only prerequisite
@@ -26,6 +26,24 @@ clean:
 	-rm -rf $(BUILDDIR)
 $(ARCHIVE):	$(OBJS)
 	ar -r $(ARCHIVE) $(OBJS)
- 
+
+help:
+	@echo "Linear Programming Solver - Build Targets"
+	@echo "==========================================="
+	@echo ""
+	@echo "Default targets:"
+	@echo "  make              - Build the main lpmatrix executable"
+	@echo "  make clean        - Remove all build artifacts"
+	@echo ""
+	@echo "Additional targets:"
+	@echo "  make build/test   - Build the test executable"
+	@echo "  make -B bin/lpmatrix  - Force rebuild of lpmatrix"
+	@echo ""
+	@echo "Usage:"
+	@echo "  echo 'tests/problems/mathhx.dk.txt' | ./bin/lpmatrix"
+	@echo ""
+	@echo "For more information, see README.md or INSTRUCTIONS.md"
+
+.PHONY: help clean
 
 
