@@ -17,9 +17,9 @@ int main()
 	// return 0; 
 	
 	LP lp;
-	string LpProblem = "problems/bags.txt";
-	//cout << "Skriv filnavnet med lp-problemet: ";
-	//cin >> LpProblem;
+	string LpProblem = ""; //"problems/bags.txt";
+	cout << "Skriv filnavnet med lp-problemet: ";
+	cin >> LpProblem;
 	cout << endl;
 	if (lp.Run(LpProblem))
 	{

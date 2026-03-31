@@ -1,0 +1,9 @@
+// This is a line comment
+/* This is a block comment */
++ 1 bukser + 1.5 jakker < 750 ;
+// Another line comment
++ 2 bukser + 1 jakker < 1000 ;
+/* Multi-line block comment
+   spanning several lines
+   with multiple lines of text */
++ 500 bukser + 400 jakker = 0 ; // inline line comment after statement

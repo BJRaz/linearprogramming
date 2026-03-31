@@ -23,7 +23,7 @@ string StringTokenizer::NextToken()
 string StringTokenizer::NextToken(const string &delimiters)
 {
 	delim = delimiters;
-	return NextToken;
+	return NextToken();
 }
 
 bool StringTokenizer::HasMoreTokens()

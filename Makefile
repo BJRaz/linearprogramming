@@ -6,7 +6,7 @@ OBJDIR:=bin
 OBJS=$(addprefix $(OBJDIR)/, LPMatrix.o Token.o Tokenizer.o SymbolTabel.o StraffeLP.o StandardLP.o LP.o)
 VPATH=src include
 
-all:	$(BUILDDIR)/test
+//all:	$(BUILDDIR)/test
 all:	$(OBJDIR)/lpmatrix
 
 $(OBJS): | $(OBJDIR) $(BUILDDIR) 					# order-only prerequisite

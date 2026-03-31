@@ -1,7 +1,7 @@
 /* File			 : lpmatrix.cpp
-				 Programm�r: ToH�
-				 Rettet		 : 08/11 1999
-			*/
+         Programm�r: ToH�
+         Rettet		 : 08/11 1999
+      */
 
 #include "LPMatrix.h"
 
@@ -16,13 +16,13 @@ void LPMatrix::Resize(size_t LignAndKrit, size_t VarsAndB)
   size_t c = VarsAndB + 1;
   rows.resize(r);
   for (size_t i = 0; i < r; ++i)
-    rows[i].aRow.resize(c, 0.0); //nye elementer 0.0
+    rows[i].aRow.resize(c, 0.0); // nye elementer 0.0
 }
 
 void LPMatrix::SwapRows(size_t row1, size_t row2)
 {
-  //vector har swap som member-funktion (se i STL!)
-  //Matrix operator [] returnerer en vector, derfor:
+  // vector har swap som member-funktion (se i STL!)
+  // Matrix operator [] returnerer en vector, derfor:
   assert((1 <= row1 && row1 < NoOfRows()) && (1 <= row2 && row2 < NoOfRows()));
 
   rows[row1].aRow.swap(rows[row2].aRow);
@@ -48,7 +48,7 @@ void LPMatrix::ReadFromFile(const string &filnavn)
 {
   /*
         Til test.
-        L�ser f�rst antal ligninger (minus K-max): m 
+        L�ser f�rst antal ligninger (minus K-max): m
         herefter antal variabler                 : n
         Matrixen resize's herefter til en (m+1) * (n+1) matrix.
         Efter resize indl�ses koeffecienter fra ligningerne p�
@@ -73,7 +73,7 @@ void LPMatrix::ReadFromFile(const string &filnavn)
   ifs.close();
 }
 
-//fri funktion til udskrivning:
+// fri funktion til udskrivning:
 ostream &operator<<(ostream &os, const LPMatrix &LPM)
 {
   char cs[50];
@@ -98,7 +98,7 @@ ostream &operator<<(ostream &os, const LPMatrix &LPM)
     {
       val = LPM.GetAt(row, col);
       if (val == (long)val)
-        sprintf(cs, " % 3ld ", (long)val); //NB: typecast!
+        sprintf(cs, " % 3ld ", (long)val); // NB: typecast!
       else
         sprintf(cs, "% 7.1f ", val);
       os << cs;

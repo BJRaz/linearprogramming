@@ -9,7 +9,12 @@
         "functional": "cpp",
         "string": "cpp",
         "fstream": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "iostream": "cpp",
+        "filesystem": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "__locale": "cpp"
     },
     "makefile.configurations": [],
     "makefile.configureOnOpen": false

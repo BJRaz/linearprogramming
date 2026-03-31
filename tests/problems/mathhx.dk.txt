@@ -1,6 +1,9 @@
 
-+ 1 bukser + 1.5 jakker < 750 ;
++ 1 bukser + 1.5 jakker < 750 ; 
 + 2 bukser + 1 jakker < 1000 ;
-+ 500 bukser + 400 jakker = 0 ;
-
-
++ 500 bukser + 400 jakker = 0 ; // kriterie funktionen
+/* The solution is:
+ bukser = 375
+ jakker = 250
+ k = 287500
+*/

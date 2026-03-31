@@ -1,4 +1,4 @@
-//#define PRINTDEBUG
+// #define PRINTDEBUG
 //------------LP.cpp
 #include "LP.h"
 #include "StraffeLP.h"
@@ -28,7 +28,7 @@ LP::~LP()
 	if (pSLP != NULL)
 	{
 		delete pSLP;
-		pSLP = NULL; //For at undg� dangling reference
+		pSLP = NULL; // For at undg� dangling reference
 	}
 }
 
@@ -45,16 +45,15 @@ bool LP::Run(const string &filnavn, bool trace)
 	else
 		cout << "Ingen fejl i lexikalsk analyse: " << endl;
 
-
-	A.Resize(m + 1, n + 1); //A s�ttes til rigtig size f�r kodegenerering
+	A.Resize(m + 1, n + 1); // A s�ttes til rigtig size f�r kodegenerering
 
 	if (!ParseAndGenerateCode())
 	{
 		SetFejl("Parse fejl: \n", false);
 		return false;
-	} else
-		cout << "Ingen fejl i syntaktisk analyse: " << endl;	
-
+	}
+	else
+		cout << "Ingen fejl i syntaktisk analyse: " << endl;
 
 	// TODO:
 	cout << "Matricen før løsningen er gennemført: " << A << endl;
@@ -71,12 +70,12 @@ const LPMatrix &LP::GetMatrix()
 	return A;
 }
 
-const char ETX = '\3'; //Grim variabel for class LP
+const char ETX = '\3'; // Grim variabel for class LP
 
 char LP::NextChar()
 {
 	char ch;
-	//hvis filen ikke er EOF l�ses et ReadAheadChar
+	// hvis filen ikke er EOF l�ses et ReadAheadChar
 	if (TekstFil.get(ch))
 		return ch;
 	// EOF returner ETX = ASCII '\3'
@@ -85,7 +84,7 @@ char LP::NextChar()
 
 bool LP::Scan()
 {
-	
+
 	TekstFil.open(filNavn.data(), std::ios::in);
 
 	if (!TekstFil.is_open())
@@ -101,7 +100,7 @@ bool LP::Scan()
 	string streng;
 
 	string whitespace(" \n\t");
-	const int npos = -1; //Markerer no position found
+	const int npos = -1; // Markerer no position found
 
 	char ReadAheadChar = NextChar();
 
@@ -112,6 +111,45 @@ bool LP::Scan()
 	{
 		if (whitespace.find(ReadAheadChar) != npos)
 			ReadAheadChar = NextChar();
+		else if (ReadAheadChar == '/')
+		{
+			// Check for comments: // or /* */
+			char nextChar = NextChar();
+			if (nextChar == '/')
+			{
+				// Line comment: skip until end of line
+				while (ReadAheadChar != ETX && ReadAheadChar != '\n')
+					ReadAheadChar = NextChar();
+				if (ReadAheadChar == '\n')
+					ReadAheadChar = NextChar();
+			}
+			else if (nextChar == '*')
+			{
+				// Block comment: skip until */
+				ReadAheadChar = NextChar(); // skip the *
+				while (ReadAheadChar != ETX)
+				{
+					if (ReadAheadChar == '*')
+					{
+						ReadAheadChar = NextChar();
+						if (ReadAheadChar == '/')
+						{
+							ReadAheadChar = NextChar();
+							break; // end of block comment
+						}
+					}
+					else
+						ReadAheadChar = NextChar();
+				}
+			}
+			else
+			{
+				// Single / is not a valid operator in LP syntax, treat as error
+				Uligheder[ulighedNr - 1] += ReadAheadChar;
+				SetFejl("Ulovligt tegn!", true);
+				return false;
+			}
+		}
 		else
 		{
 			switch (ReadAheadChar)
@@ -128,26 +166,26 @@ bool LP::Scan()
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
 				ReadAheadChar = NextChar();
-				break; //case...
+				break; // case...
 			case '-':
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
 				ReadAheadChar = NextChar();
-				break; //case...
+				break; // case...
 			case '<':
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
 				//++nGreater;
 				++nUnequalities;
 				ReadAheadChar = NextChar();
-				break; //case...
+				break; // case...
 			case '>':
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
 				++nUnequalities;
 				++nGreater;
 				ReadAheadChar = NextChar();
-				break; //case ...
+				break; // case ...
 			case '=':
 				streng = ReadAheadChar;
 				Uligheder[ulighedNr - 1] += streng + ' ';
@@ -175,7 +213,7 @@ bool LP::Scan()
 						ReadAheadChar = NextChar();
 					}
 					else
-						break; //while...
+						break; // while...
 
 				if (ReadAheadChar == '.')
 				{
@@ -183,9 +221,9 @@ bool LP::Scan()
 					Uligheder[ulighedNr - 1] += ReadAheadChar;
 					ReadAheadChar = NextChar();
 
-					if (!isdigit(ReadAheadChar)) //check tegn efter '.'
+					if (!isdigit(ReadAheadChar)) // check tegn efter '.'
 					{
-						Uligheder[ulighedNr - 1] += ReadAheadChar; //inds�t fejltegn
+						Uligheder[ulighedNr - 1] += ReadAheadChar; // inds�t fejltegn
 						SetFejl("'.' skal efterfoelges af ciffer!", true);
 						return false;
 					}
@@ -198,11 +236,11 @@ bool LP::Scan()
 								ReadAheadChar = NextChar();
 							}
 							else
-								break; //while
-				}					   //if (ReadAheadChar..
+								break; // while
+				} // if (ReadAheadChar..
 
-				Uligheder[ulighedNr - 1] += ' '; //Space efter NUM
-				break;							 //case
+				Uligheder[ulighedNr - 1] += ' '; // Space efter NUM
+				break;							 // case
 
 			default:
 				if (isalpha(ReadAheadChar))
@@ -221,7 +259,7 @@ bool LP::Scan()
 							break;
 
 					Uligheder[ulighedNr - 1] += ' ';
-					//Inds�t ID i symboltabel
+					// Inds�t ID i symboltabel
 					Symboltabel.InsertID(streng);
 				}
 				else
@@ -230,14 +268,14 @@ bool LP::Scan()
 					SetFejl("Ulovligt tegn!", true);
 					return false;
 				}
-			} //switch (ReadAheadChar)
-			//lav det token der er indeholdt i streng
+			} // switch (ReadAheadChar)
+			// lav det token der er indeholdt i streng
 			CurrentToken.MakeToken(streng);
-			//S�t token i k�en
+			// S�t token i k�en
 			TokenQueue.push(CurrentToken);
-		} //if/whitespace.find.....
+		} // else (non-comment token)
 
-	} //while ReadAheadChar != ETX
+	} // while ReadAheadChar != ETX
 
 	TekstFil.close();
 
@@ -246,14 +284,14 @@ bool LP::Scan()
 
 	nSymbols = Symboltabel.GetNoOfVars();
 	//--------------test udskrift --------------------
-	//cout << "Antal variabler i Symboltabel: " << nSymbols;
+	// cout << "Antal variabler i Symboltabel: " << nSymbols;
 
 	m = nUnequalities;
 	n = nSymbols + nUnequalities + nGreater;
 	//--------------test udskrift --------------------
-	//cout << "\nAntal uligheder(m): " << m;
-	//cout << "\nAntal symboler(n): " << n;
-	//cout << "\n";
+	// cout << "\nAntal uligheder(m): " << m;
+	// cout << "\nAntal symboler(n): " << n;
+	// cout << "\n";
 
 	restIdx = nSymbols + 1;
 
@@ -306,10 +344,10 @@ void LP::LpUlighedsliste()
 
 void LP::Ulighed()
 {
-	
+
 	Trace("Ulighed() nr " + ulighedNr);
 	Trace(": " + Uligheder.at(ulighedNr - 1));
-	Trace(" koeres !!\n"); 
+	Trace(" koeres !!\n");
 	Termliste();
 	if (!InError())
 		RelOp();
@@ -319,7 +357,7 @@ void LP::Ulighed()
 
 void LP::Termliste()
 {
-	Trace(" - Termliste() koeres !!\n"); 
+	Trace(" - Termliste() koeres !!\n");
 	Term();
 	if (!InError())
 		HjTermliste();
@@ -327,7 +365,7 @@ void LP::Termliste()
 
 void LP::HjTermliste()
 {
-	Trace(" - HjTermliste() koeres!!!\n"); 
+	Trace(" - HjTermliste() koeres!!!\n");
 	if (CurrentToken.tType == PLUS || CurrentToken.tType == MINUS)
 		Termliste();
 	else
@@ -338,7 +376,7 @@ void LP::HjTermliste()
 
 void LP::Term()
 {
-	Trace(" - Term() koeres!!!\n"); 
+	Trace(" - Term() koeres!!!\n");
 	AddOp();
 	if (!InError())
 		Num();
@@ -348,7 +386,7 @@ void LP::Term()
 
 void LP::AddOp()
 {
-	Trace(" - AddOP koeres !! \n"); 
+	Trace(" - AddOP koeres !! \n");
 	Trace("	-	CurrentToken type: (" + CurrentToken.theToken + ")\n");
 	Trace("	-	LastToken type: (" + LastToken.theToken + ")\n");
 	if (CurrentToken.tType == PLUS)
@@ -395,7 +433,7 @@ void LP::DoID()
 {
 	Trace(" - - DoID k�rt !! \n");
 	size_t j;
-	//finder strValue i Symboltabel, ret. Index
+	// finder strValue i Symboltabel, ret. Index
 	if (Symboltabel.Find(CurrentToken.strValue, j))
 	{
 		A[ulighedNr][j] = LastToken.numValue;
@@ -407,10 +445,10 @@ void LP::DoID()
 
 void LP::DoNUM()
 {
-	if (LastToken.tType == MINUS) //venstre side, minus foran koefficient
+	if (LastToken.tType == MINUS) // venstre side, minus foran koefficient
 		CurrentToken.numValue = -CurrentToken.numValue;
-	//ved fortegn PLUS foretages intet
-	if (itis_b_Now) //tallet p� h�jre side
+	// ved fortegn PLUS foretages intet
+	if (itis_b_Now) // tallet p� h�jre side
 	{
 		A[ulighedNr][n + 1] = CurrentToken.numValue;
 		itis_b_Now = false;
@@ -462,14 +500,14 @@ void LP::DoMINUS()
 
 void LP::DoSEMICOLON()
 {
-	
+
 	++ulighedNr;
 	NextToken();
 }
 
 void LP::Trace(const string &tracestr)
 {
-	if(trace)
+	if (trace)
 		cout << tracestr;
 }
 
