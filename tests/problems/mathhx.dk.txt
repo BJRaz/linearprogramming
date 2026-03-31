@@ -1,9 +1,21 @@
+/* 
+    Indledning:
+    Producenten har 750m2 bomuld, og 1000m2 polyester
+    Til et par bukser skal bruges 1m2 bomuld og 2m2 polyester, og til en jakke skal der bruges 1,5m2 bomuld og 1m2 polyester.
 
-+ 1 bukser + 1.5 jakker < 750 ; 
-+ 2 bukser + 1 jakker < 1000 ;
-+ 500 bukser + 400 jakker = 0 ; // kriterie funktionen
+    Dækningsbidraget er 500kr. pr. par bukser og 400kr. pr. jakke.
+
+    Hvor mange bukser og hvor mange jakker skal der produceres for at få det størst mulige dækningsbidrag?
+
+    Hvad er det maksimale dækningsbidrag?
+
+*/
++ 1 bukser + 1.5 jakker < 750 ;     // dsv: til bukser(x) bruges 1m2 bomuld, og til jakker(y) 1,5m2
++ 2 bukser + 1 jakker < 1000 ;      // dsv: til bukser(x) bruges 2m2 polyester, og til jakker(y) 1m2 polyester
++ 500 bukser + 400 jakker = 0 ;     // kriterie funktionen, som beskriver det samlede dækningsbidrag for solgte jakker og bukser
+                                    // 500kr for et par bukser, 400kr for en jakke
 /* The solution is:
- bukser = 375
- jakker = 250
- k = 287500
+        bukser = 375        dsv: 375 * 500kr
+        jakker = 250        dvs: 250 * 400kr
+        k = 287500          dsv: dækningsbidrag er ovenstådende sum i kr. 
 */

@@ -1,0 +1,8 @@
+// Realistic Cost Minimization Problem
+// Minimize: 500*bukser + 400*jakker (production costs)
+// Subject to constraints:
++ 1 bukser + 1.5 jakker < 750 ;      // max capacity constraint 1
++ 2 bukser + 1 jakker < 1000 ;       // max capacity constraint 2
++ 1 bukser + 0.5 jakker > 100 ;      // min demand constraint
+/* Objective function - minimize total costs */
++ 500 bukser + 400 jakker = 0 ;

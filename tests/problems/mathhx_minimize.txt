@@ -1,0 +1,7 @@
+// Cost Minimization Problem
+// Minimize: 500*bukser + 400*jakker (minimize expenditure)
+// Subject to constraints:
++ 1 bukser + 1.5 jakker < 750 ;
++ 2 bukser + 1 jakker < 1000 ;
+/* Objective function - minimize costs */
+- 500 bukser - 400 jakker = 0 ;
