@@ -1,0 +1,50 @@
+# Makefile.amiga - vbcc cross-build snippet for Amiga (m68k)
+# Usage:
+#   make -f Makefile.amiga           # build using default VBCC in PATH
+#   make -f Makefile.amiga VBCC=/path/to/vbcc AMIGA_SDK=/opt/amiga
+
+VBCC ?= vbcc
+VLINK ?= vlink
+TARGET ?= lpmatrix
+TARGET_ARCH ?= m68k_amiga
+AMIGA_SDK ?= /opt/amiga
+
+CFLAGS ?= -O2 -t $(TARGET_ARCH) -I$(AMIGA_SDK)/include
+LDFLAGS ?= -t $(TARGET_ARCH) -L$(AMIGA_SDK)/lib
+
+# Collect C/C++ sources in src/
+SRCS := $(wildcard src/*.c src/*.cpp)
+
+# Build object paths under build/
+OBJS_C := $(patsubst src/%.c,build/%.o,$(filter %.c,$(SRCS)))
+OBJS_CPP := $(patsubst src/%.cpp,build/%.o,$(filter %.cpp,$(SRCS)))
+OBJS := $(OBJS_C) $(OBJS_CPP)
+
+.PHONY: all clean
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	@echo Linking $@
+	$(VBCC) $(LDFLAGS) -o $@ $^
+
+build/%.o: src/%.c
+	@mkdir -p $(dir $@)
+	@echo Compiling $<
+	$(VBCC) -c $(CFLAGS) $< -o $@
+
+build/%.o: src/%.cpp
+	@mkdir -p $(dir $@)
+	@echo Compiling C++ $<
+	$(VBCC) -c $(CFLAGS) $< -o $@
+
+clean:
+	rm -rf build $(TARGET)
+
+# Notes:
+# - Confirm the vbcc target name with `$(VBCC) -v` or check your vbcc doc.
+#   Some installations use target names like `m68k_amiga` or `m68k-amiga`.
+# - If your code uses Amiga OS libraries, ensure `AMIGA_SDK` points to
+#   a directory with appropriate headers and libs. Adjust CFLAGS/LDFLAGS.
+# - VBCC's C++ support is limited on some builds; if C++ compilation fails,
+#   consider using an m68k GCC cross-toolchain as a fallback.

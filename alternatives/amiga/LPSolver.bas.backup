@@ -1,26 +1,26 @@
-100 ' 
-110 '               LINEAR PROGRAMMING SOLVER - AMIGA BASIC (POC)                      
-120 '                                                                                 
-130 '   This program demonstrates that the C++ Linear Programming Solver can be       
-140 '   ported to Amiga Basic, showcasing platform independence of algorithmic       
-150 '   design. It implements a simplex method solver for linear programming         
-160 '   problems in standard format.                                                  
-170 '                                                                                 
-180 '   Features:                                                                     
-190 '     - Lexical analysis (tokenization)                                          
-200 '     - Recursive descent parsing                                                
-210 '     - Simplex algorithm solver                                                 
-220 '     - Matrix operations and pivoting                                           
-230 '     - Comment support (// and /* */)                                           
-240 '     - Constraint handling (<, >, =)                                            
-250 '                                                                                 
-260 ' 
+100 ' ╔════════════════════════════════════════════════════════════════════════════════╗
+110 ' ║              LINEAR PROGRAMMING SOLVER - AMIGA BASIC (POC)                      ║
+120 ' ║                                                                                ║
+130 ' ║  This program demonstrates that the C++ Linear Programming Solver can be       ║
+140 ' ║  ported to Amiga Basic, showcasing platform independence of algorithmic       ║
+150 ' ║  design. It implements a simplex method solver for linear programming         ║
+160 ' ║  problems in standard format.                                                  ║
+170 ' ║                                                                                ║
+180 ' ║  Features:                                                                     ║
+190 ' ║    - Lexical analysis (tokenization)                                          ║
+200 ' ║    - Recursive descent parsing                                                ║
+210 ' ║    - Simplex algorithm solver                                                 ║
+220 ' ║    - Matrix operations and pivoting                                           ║
+230 ' ║    - Comment support (// and /* */)                                           ║
+240 ' ║    - Constraint handling (<, >, =)                                            ║
+250 ' ║                                                                                ║
+260 ' ╚════════════════════════════════════════════════════════════════════════════════╝
 
 270 GOTO 1000  ' Skip to main program
 
-280 ' 
+280 ' ════════════════════════════════════════════════════════════════════════════════
 290 ' DATA STRUCTURES AND GLOBAL VARIABLES
-300 ' 
+300 ' ════════════════════════════════════════════════════════════════════════════════
 
 310 ' Token types
 320 CONST TOKTYPE_NUMBER = 1
@@ -74,14 +74,14 @@
 
 710 SHARED problemFile$, fileContent$, curPos
 
-720 ' 
+720 ' ════════════════════════════════════════════════════════════════════════════════
 730 ' MAIN PROGRAM LOOP
-740 ' 
+740 ' ════════════════════════════════════════════════════════════════════════════════
 
 1000 PRINT CHR$(147)  ' Clear screen
-1010 PRINT ""
-1020 PRINT "  Linear Programming Solver - Amiga Basic (POC)                 "
-1030 PRINT ""
+1010 PRINT "╔════════════════════════════════════════════════════════════════╗"
+1020 PRINT "║  Linear Programming Solver - Amiga Basic (POC)                 ║"
+1030 PRINT "╚════════════════════════════════════════════════════════════════╝"
 1040 PRINT ""
 
 1050 INPUT "Enter problem file path (or 'demo' for built-in example): ", problemFile$
@@ -122,9 +122,9 @@
 1360 PRINT "Error: Could not read file '"; problemFile$; "'"
 1370 RETURN
 
-1400 ' 
+1400 ' ════════════════════════════════════════════════════════════════════════════════
 1410 ' LEXICAL ANALYZER (TOKENIZER)
-1420 ' 
+1420 ' ════════════════════════════════════════════════════════════════════════════════
 
 1500 REM Tokenize the input
 1510 curPos = 1
@@ -235,9 +235,9 @@
 2550 tokenValue$(tokenCount) = "EOF"
 2560 RETURN
 
-2600 ' 
+2600 ' ════════════════════════════════════════════════════════════════════════════════
 2610 ' PARSER (RECURSIVE DESCENT)
-2620 ' 
+2620 ' ════════════════════════════════════════════════════════════════════════════════
 
 1500 REM Parse problem
 1510 tokenPos = 0
@@ -353,9 +353,9 @@
 2590 PRINT "Parsed"; numVariables; "variables and"; numConstraints; "constraints"
 2600 RETURN
 
-2700 ' 
+2700 ' ════════════════════════════════════════════════════════════════════════════════
 2710 ' SOLVER (SIMPLEX METHOD)
-2720 ' 
+2720 ' ════════════════════════════════════════════════════════════════════════════════
 
 2000 REM Build and solve tableau
 2010 GOSUB 2100  ' Build tableau
@@ -473,16 +473,16 @@
 
 2450 RETURN
 
-2700 ' 
+2700 ' ════════════════════════════════════════════════════════════════════════════════
 2710 ' OUTPUT AND DISPLAY
-2720 ' 
+2720 ' ════════════════════════════════════════════════════════════════════════════════
 
 2400 REM Print results
 2410 PRINT ""
 2420 IF isOptimal = 1 THEN
-2430   PRINT ""
-2440   PRINT "     SOLUTION FOUND                    "
-2450   PRINT ""
+2430   PRINT "╔════════════════════════════════════════╗"
+2440   PRINT "║    ✓ SOLUTION FOUND                    ║"
+2450   PRINT "╚════════════════════════════════════════╝"
 2460   PRINT ""
 2470   
 2480   ' Extract optimal value
@@ -504,13 +504,13 @@
 2640   INPUT dummy$
 2650   
 2660 ELSEIF isOptimal = -1 THEN
-2670   PRINT ""
-2680   PRINT "     PROBLEM IS UNBOUNDED             "
-2690   PRINT ""
+2670   PRINT "╔════════════════════════════════════════╗"
+2680   PRINT "║    ⚠ PROBLEM IS UNBOUNDED             ║"
+2690   PRINT "╚════════════════════════════════════════╝"
 2700 ELSE
-2710   PRINT ""
-2720   PRINT "     NO SOLUTION FOUND                 "
-2730   PRINT ""
+2710   PRINT "╔════════════════════════════════════════╗"
+2720   PRINT "║    ✗ NO SOLUTION FOUND                 ║"
+2730   PRINT "╚════════════════════════════════════════╝"
 2740 END IF
 
 2750 RETURN
