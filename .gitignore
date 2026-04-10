@@ -3,6 +3,7 @@
 *.dSYM
 .out
 bin/
+build/
 tags
 test
 
