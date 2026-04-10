@@ -14,12 +14,13 @@ This file contains instructions for using GitHub Copilot effectively with the Li
 
 ### Key Files Copilot Should Know
 
-- `src/LP.cpp` - Lexical analysis & parsing (main logic); contains corrected BNF grammar
+- `src/LP.cpp` - Lexical analysis & parsing (main logic); references `docs/grammar.bnf`
 - `include/LP.h` - LP class definition
 - `src/StandardLP.cpp` - Simplex solver implementation
 - `include/Matrix.h` - Matrix operations
 - `src/test.cpp` - Output formatting (matrices, inequalities, solutions)
 - `src/LPMatrix.cpp` - Matrix pretty-printing with aligned columns
+- `docs/grammar.bnf` - Formal BNF grammar specification
 - `tests/problems/*.txt` - Problem file examples
 
 ### Recent Improvements (April 2026)
@@ -30,8 +31,10 @@ This file contains instructions for using GitHub Copilot effectively with the Li
 - Solution printing uses right-aligned numeric values (see `WriteBasisSolution` in `src/test.cpp`).
 
 **Parser Grammar**:
-- The BNF grammar in `src/LP.cpp` has been corrected and clarified (see header comment).
+- Formal BNF specification in `docs/grammar.bnf` defines language syntax.
 - Current parser requires explicit '+' or '-' before each term. Future enhancement: support implicit leading '+'.
+- Implementation: Recursive descent parser in `src/LP.cpp` (Ulighed, Termliste, Term, AddOp, RelOp, etc.)
+- See `docs/grammar.bnf` for examples, testing notes, and planned enhancements.
 
 ## How to Use Copilot with This Project
 
@@ -157,7 +160,7 @@ problem files and solves them sequentially.
 - Error recovery strategies
 
 ### Parser Enhancement
-- Grammar rule additions (see corrected BNF in `src/LP.cpp`)
+- Grammar rule additions (see `docs/grammar.bnf`)
 - Error messages and user-friendly diagnostics
 - Operator precedence and associativity handling
 - Variable validation and symbol table management

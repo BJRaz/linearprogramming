@@ -4,23 +4,19 @@
 #include "StraffeLP.h"
 
 /*
-BNF (corrected):
+Parser Implementation for Linear Programming Solver
 
-<ulighed>    ::= <termliste> <relop> NUM ;
-<relop>      ::= '<' | '>' | '=' ;
-<termliste>  ::= <term> <hjtermliste> ;
-<hjtermliste> ::= ('+' | '-') <termliste> | ε ;
-<term>       ::= ('+' | '-') NUM ID ;
-NUM          ::= [0-9]+ ('.' [0-9]+)? ;
-ID           ::= [A-Za-z][A-Za-z0-9]*
+Formal grammar: See docs/grammar.bnf
+- Recursive descent parser implementing BNF grammar
+- Lexical analysis via Scan(); syntax analysis via Ulighed(), Termliste(), Term(), etc.
+- Supports constraint parsing: linear terms, comparison operators, RHS constant
+- Generates simplex tableau as constraints are parsed
 
 Notes:
-- The grammar requires an explicit '+' or '-' before each term. If you
-	prefer an implicit leading '+' for the first term, consider allowing
-	NUM at the start of a <term> and treating it as '+ NUM ID'.
-*/
-
-LP::LP()
+- Parser currently requires explicit '+' or '-' before each term.
+- Future enhancement: Support implicit leading '+' (see docs/grammar.bnf)
+- Comments supported: // single-line and /* multi-line */
+*/LP::LP()
 {
 	ulighedNr = 0;
 

@@ -1,0 +1,129 @@
+/*
+Linear Programming Problem Grammar (BNF Notation)
+
+This file formally specifies the syntax for LP problem files accepted by 
+the parser in src/LP.cpp.
+
+Implementation details: See src/LP.cpp for lexer (Scan) and parser methods
+(LpUlighedsliste, Ulighed, Termliste, Term, AddOp, RelOp, Num, Identifier, etc.)
+*/
+
+/* ====== Grammar Rules ====== */
+
+<program>       ::= <ulighed_liste> ;
+<ulighed_liste> ::= <ulighed> | <ulighed> <ulighed_liste> ;
+<ulighed>       ::= <termliste> <relop> NUM ';' ;
+<relop>         ::= '<' | '>' | '=' ;
+<termliste>     ::= <term> <hjtermliste> ;
+<hjtermliste>   ::= ('+' | '-') <termliste> | ε ;
+<term>          ::= ('+' | '-') NUM ID ;
+
+/* ====== Tokens ====== */
+
+NUM             ::= [0-9]+ ('.' [0-9]+)? ;
+                    /* Integer or floating-point number */
+
+ID              ::= [A-Za-z][A-Za-z0-9]* ;
+                    /* Variable identifier (case-sensitive) */
+
+Operators       ::= '+' | '-' | '<' | '>' | '=' | ';' ;
+
+Whitespace      ::= ' ' | '\t' | '\n' | '\r' ;
+                    /* Ignored by lexer */
+
+Comments        ::= '//' ~'\n' '\n'  |  '/*' ~'*/' '*/' ;
+                    /* Single-line and block comments supported */
+
+/* ====== Example Constraints ====== */
+
+/*
+Valid inputs (all constraints end with semicolon):
+
+Minimize: + 500 bukser + 400 jakker ;
+Subject to:
+  + 1 bukser + 1.5 jakker < 750 ;
+  + 2 bukser + 1 jakker < 1000 ;
+
+Alternative (with comments):
+  // Resource constraint
+  + 100 x + 50 y > 1000 ;
+
+  /* Equality constraint */
+  + 1 a + 1 b = 10 ;
+*/
+
+/* ====== Current Implementation Notes ====== */
+
+/*
+Parser Behavior:
+- Lexer (Scan): Tokenizes input stream, produces queue of tokens.
+  Handles comments (//, /* */) and whitespace automatically.
+  
+- Parser (LpUlighedsliste, Ulighed, etc.): Recursive descent implementation.
+  - Ulighed() expects: TERM... RELOP NUM
+  - Termliste() parses: TERM (SIGN TERM)*
+  - Term() requires: SIGN NUM ID (explicit '+' or '-' before coefficient)
+  - AddOp() enforces sign requirement (PLUS or MINUS)
+  
+- Symbol Table: All IDs inserted during lexing and resolved during parsing.
+
+- Matrix Generation: As each constraint is parsed, coefficients are placed
+  in the simplex tableau (A). Slack/artificial variables added based on
+  constraint type (< > =).
+
+Constraints:
+- Explicit signs REQUIRED before every term (including first term in constraint)
+- Example: "+ 1 x + 2 y < 100 ;" (leading '+' required)
+- Input without leading sign will cause parse error:
+  Example (INVALID): "1 x + 2 y < 100 ;" (missing leading sign)
+*/
+
+/* ====== Future Enhancements (TODO) ====== */
+
+/*
+1. Implicit Leading '+' (High Priority)
+   Problem: Requiring explicit '+' before first term is unintuitive.
+   Solution: Allow first term to omit '+' sign; treat as implicit '+'.
+   
+   Grammar change:
+     <termliste> ::= <term_first> <hjtermliste> ;
+     <term_first> ::= NUM ID | ('+' | '-') NUM ID ;
+   
+   Implementation: Modify LP::Term() or LP::AddOp() to accept NUM without sign.
+
+2. Variable Bounds (Medium Priority)
+   Example syntax:
+     x >= 5 ;
+     y <= 100 ;
+   Requires: Lexer enhancement (>= token), Parser extension, Matrix adjustment.
+
+3. Free Variables (Medium Priority)
+   Syntax: free x ;
+   Implementation: Symbol table flag, matrix handling.
+
+4. Problem Modifiers (Low Priority)
+   Syntax: minimize / maximize at start of file.
+   Current: Only maximization supported (objective in last row).
+
+5. Multiple Problem Files in Single Run (Low Priority)
+   Syntax: solve "file1.lp" ; solve "file2.lp" ;
+   Implementation: Main loop enhancement.
+*/
+
+/* ====== Testing & Validation ====== */
+
+/*
+Test cases (see tests/problems/*.txt for full examples):
+
+Valid:
+  + 1 x + 2 y < 10 ;
+  + 0.5 a - 1.5 b = 5 ;
+  + 100 c + 50 d > 1000 ;
+
+Invalid (will fail parsing):
+  1 x + 2 y < 10 ;            // Missing leading sign
+  + 1 x 2 y < 10 ;            // Missing '+' or '-' before second term
+  + 1 x + 2 y < ;             // Missing RHS value
+  + 1 x + 2 y 10 ;            // Missing relational operator
+  + 1. x + 2 y < 10 ;         // Dot without digits is rejected
+*/
