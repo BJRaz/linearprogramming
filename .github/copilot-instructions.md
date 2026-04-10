@@ -14,11 +14,24 @@ This file contains instructions for using GitHub Copilot effectively with the Li
 
 ### Key Files Copilot Should Know
 
-- `src/LP.cpp` - Lexical analysis & parsing (main logic)
+- `src/LP.cpp` - Lexical analysis & parsing (main logic); contains corrected BNF grammar
 - `include/LP.h` - LP class definition
 - `src/StandardLP.cpp` - Simplex solver implementation
 - `include/Matrix.h` - Matrix operations
+- `src/test.cpp` - Output formatting (matrices, inequalities, solutions)
+- `src/LPMatrix.cpp` - Matrix pretty-printing with aligned columns
 - `tests/problems/*.txt` - Problem file examples
+
+### Recent Improvements (April 2026)
+
+**Output Formatting**:
+- Matrix output now uses aligned columns with dynamic column widths (see `src/LPMatrix.cpp`).
+- Inequality/constraint printing is parsed and aligned for readability (see `WriteUligheder` in `src/test.cpp`).
+- Solution printing uses right-aligned numeric values (see `WriteBasisSolution` in `src/test.cpp`).
+
+**Parser Grammar**:
+- The BNF grammar in `src/LP.cpp` has been corrected and clarified (see header comment).
+- Current parser requires explicit '+' or '-' before each term. Future enhancement: support implicit leading '+'.
 
 ## How to Use Copilot with This Project
 
@@ -85,11 +98,26 @@ methods in StandardLP.cpp.
 - Implement problem file format variations
 - Create visualization/output formatters
 - Add optimization enhancements
+- Improve parser usability (e.g., implicit leading '+' for first term)
 
 **Example prompt**:
 ```
 Add support for variable bounds (e.g., x >= 5, y <= 10) 
 in the LP problem file format. Update lexer and parser.
+```
+
+### 6. Output & Formatting
+
+**Ask Copilot to**:
+- Improve matrix, constraint, or solution output alignment
+- Add CSV or JSON export formatters
+- Create visualization routines for simplex pivots
+- Enhance error message formatting
+
+**Example prompt**:
+```
+Improve the matrix pretty-printer in LPMatrix.cpp to show 
+column headers and use consistent numeric precision.
 ```
 
 ## Copilot Prompt Patterns
@@ -125,14 +153,20 @@ problem files and solves them sequentially.
 ### Lexer Improvements
 - Adding new token types
 - Handling edge cases in character processing
-- Comment style variations
+- Comment style variations (// and /* */ fully supported)
 - Error recovery strategies
 
 ### Parser Enhancement
-- Grammar rule additions
-- Error messages
-- Operator precedence handling
-- Variable validation
+- Grammar rule additions (see corrected BNF in `src/LP.cpp`)
+- Error messages and user-friendly diagnostics
+- Operator precedence and associativity handling
+- Variable validation and symbol table management
+
+### Output Formatting
+- Matrix pretty-printing with aligned columns
+- Constraint expression parsing and alignment
+- Solution display with dynamic column widths
+- Numeric precision and alignment logic (iomanip-based)
 
 ### Solver Extensions
 - Alternative algorithms (Dual Simplex, Interior Point)
@@ -144,7 +178,7 @@ problem files and solves them sequentially.
 - Test case generation
 - Validation functions
 - Problem file format checkers
-- Result verification
+- Result verification and output comparison
 
 ## Common Copilot Requests
 
@@ -166,10 +200,11 @@ Identify potential performance bottlenecks in the
 Matrix class and suggest optimizations.
 ```
 
-### Request 4: Error Handling
+### Request 4: Parser Usability Enhancement
 ```
-Improve error messages in the parser to be more 
-user-friendly and informative.
+Modify the parser to accept constraints where the first 
+term does not require an explicit '+' sign (implicit leading '+'). 
+Update LP::AddOp() and LP::Term() in src/LP.cpp.
 ```
 
 ### Request 5: Format Conversion
@@ -177,6 +212,12 @@ user-friendly and informative.
 Create a converter function that reads LP files in 
 standard mathematical notation and converts them 
 to our internal format.
+```
+
+### Request 6: Output Export
+```
+Add functions to export the final matrix and solution 
+in CSV or JSON format.
 ```
 
 ## Tips for Effective Copilot Usage
