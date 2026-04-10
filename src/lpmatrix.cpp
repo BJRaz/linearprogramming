@@ -4,6 +4,9 @@
       */
 
 #include "LPMatrix.h"
+#include <iomanip>
+#include <sstream>
+#include <cmath>
 
 LPMatrix::LPMatrix(size_t LignAndKrit, size_t VarsAndB)
     : Matrix<double>(LignAndKrit + 1, VarsAndB + 1, 0.0)
@@ -73,37 +76,54 @@ void LPMatrix::ReadFromFile(const string &filnavn)
   ifs.close();
 }
 
-// fri funktion til udskrivning:
+// fri funktion til udskrivning: (pænere, kolonnejusteret)
 ostream &operator<<(ostream &os, const LPMatrix &LPM)
 {
-  char cs[50];
+  using std::setw;
+  using std::right;
+  using std::left;
+  using std::fixed;
+  using std::setprecision;
+
+  const int colWidth = 10; // width used for each column
+  const int labelWidth = 10;
+
   size_t row, col;
   os << "\nColumn:";
   for (col = 1; col < LPM.NoOfCols(); ++col)
   {
-    sprintf(cs, "%4lu ", col);
-    os << cs;
+    os << setw(colWidth) << right << col;
   }
-  os << endl;
-  os << "\t -";
-  for (col = 2; col < LPM.NoOfCols(); ++col)
-    os << "-----";
-  os << endl;
+  os << std::endl;
 
-  double val;
+  // underline
+  os << setw(labelWidth) << "";
+  for (col = 1; col < LPM.NoOfCols(); ++col)
+    os << std::string(colWidth, '-');
+  os << std::endl;
+
   for (row = 1; row < LPM.NoOfRows(); ++row)
   {
-    os << "Row " << row << ": ";
+    std::ostringstream rowLabel;
+    rowLabel << "Row " << row << ":";
+    os << left << setw(labelWidth) << rowLabel.str();
+
     for (col = 1; col < LPM.NoOfCols(); ++col)
     {
-      val = LPM.GetAt(row, col);
-      if (val == (long)val)
-        sprintf(cs, " % 3ld ", (long)val); // NB: typecast!
+      double val = LPM.GetAt(row, col);
+
+      // Print integers without decimal point when possible
+      if (std::fabs(val - std::round(val)) < 1e-9)
+      {
+        os << right << setw(colWidth) << static_cast<long>(std::lround(val));
+      }
       else
-        sprintf(cs, "% 7.1f ", val);
-      os << cs;
+      {
+        os << right << setw(colWidth) << fixed << setprecision(2) << val;
+        os.unsetf(std::ios::fixed);
+      }
     }
-    os << endl;
+    os << std::endl;
   }
   return os;
 }

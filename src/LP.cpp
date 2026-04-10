@@ -4,15 +4,20 @@
 #include "StraffeLP.h"
 
 /*
+BNF (corrected):
 
-BNF:
+<ulighed>    ::= <termliste> <relop> NUM ;
+<relop>      ::= '<' | '>' | '=' ;
+<termliste>  ::= <term> <hjtermliste> ;
+<hjtermliste> ::= ('+' | '-') <termliste> | ε ;
+<term>       ::= ('+' | '-') NUM ID ;
+NUM          ::= [0-9]+ ('.' [0-9]+)? ;
+ID           ::= [A-Za-z][A-Za-z0-9]*
 
-<ulighed> 		::= <termliste> < NUM | <termliste> > NUM
-<termliste> 	::= <term> <hjtermliste>
-<hjtermliste> 	::= + <termliste> | - <termliste> | e
-<term> 			::= + NUM ID | - NUM ID
-NUM 			::= 0...9
-ID				::= a..x
+Notes:
+- The grammar requires an explicit '+' or '-' before each term. If you
+	prefer an implicit leading '+' for the first term, consider allowing
+	NUM at the start of a <term> and treating it as '+ NUM ID'.
 */
 
 LP::LP()
@@ -345,7 +350,7 @@ void LP::LpUlighedsliste()
 void LP::Ulighed()
 {
 
-	Trace("Ulighed() nr " + ulighedNr);
+	Trace("Ulighed() nr " + std::to_string(ulighedNr));
 	Trace(": " + Uligheder.at(ulighedNr - 1));
 	Trace(" koeres !!\n");
 	Termliste();
