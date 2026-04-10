@@ -23,7 +23,7 @@ int main()
 	cout << "Skriv filnavnet med lp-problemet: ";
 	cin >> LpProblem;
 	cout << endl;
-	if (lp.Run(LpProblem))
+	if (lp.Run(LpProblem, true))  // trace=true to enable simplex pivot visualization
 	{
 		cout << "lp.Run(" << LpProblem << ") lykkedes: " << endl;
 		

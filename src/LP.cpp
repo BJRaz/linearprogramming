@@ -15,8 +15,10 @@ Formal grammar: See docs/grammar.bnf
 Notes:
 - Parser currently requires explicit '+' or '-' before each term.
 - Future enhancement: Support implicit leading '+' (see docs/grammar.bnf)
-- Comments supported: // single-line and /* multi-line */
-*/LP::LP()
+- Comments supported: single-line (//) and block comments
+*/
+
+LP::LP()
 {
 	ulighedNr = 0;
 

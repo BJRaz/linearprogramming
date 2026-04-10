@@ -8,6 +8,8 @@
 #include "STLdef.h"
 #include "LPMatrix.h"
 
+class SimplexVisualizer;  // Forward declaration
+
 class StandardLP
 {
 public:
@@ -30,6 +32,7 @@ protected:
 	size_t m;
 	size_t n;
 	bool bTrace; // true: matrix udskrives p� cout ved hver iteration
+	SimplexVisualizer *visualizer;  // Pivot visualization tracker
 };
 
 #endif

@@ -3,7 +3,7 @@ BUILDDIR=build
 CC=clang++
 CFLAGS=-Iinclude -g -Wall -std=c++11
 OBJDIR:=bin
-OBJS=$(addprefix $(OBJDIR)/, LPMatrix.o Token.o Tokenizer.o SymbolTabel.o StraffeLP.o StandardLP.o LP.o)
+OBJS=$(addprefix $(OBJDIR)/, LPMatrix.o Token.o Tokenizer.o SymbolTabel.o StraffeLP.o StandardLP.o SimplexVisualizer.o LP.o)
 VPATH=src include
 
 # Default build target

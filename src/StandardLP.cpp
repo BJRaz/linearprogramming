@@ -1,5 +1,6 @@
 //------------StandardLP.cpp
 #include "StandardLP.h"
+#include "SimplexVisualizer.h"
 
 StandardLP::StandardLP(LPMatrix &LPM, bool trace)
 	: A(LPM) //da A er en reference til LPMatrix-objektet i class LP
@@ -7,10 +8,16 @@ StandardLP::StandardLP(LPMatrix &LPM, bool trace)
 	bTrace = trace;
 	m = A.NoOfRows() - 2;
 	n = A.NoOfCols() - 2;
+	visualizer = new SimplexVisualizer(trace);  // Create visualizer (enabled if trace mode)
 }
 
 StandardLP::~StandardLP()
 {
+	if (visualizer != NULL)
+	{
+		delete visualizer;
+		visualizer = NULL;
+	}
 }
 
 bool StandardLP::SolveLP()
@@ -18,6 +25,7 @@ bool StandardLP::SolveLP()
 	//MArker basisvariabler
 	MarkerBasisVariabler();
 	size_t p, q; //R�kke og s�jleindex
+	size_t iteration = 0;
 	while (true)
 	{
 		if (bTrace) //Testudskrift �nskes
@@ -33,10 +41,22 @@ bool StandardLP::SolveLP()
 			p = BestemPivotRaekke(q);
 			if (p == 0) //Ingen raekke fandtes
 				return false;
+			
+			// Visualization: record iteration
+			++iteration;
+			visualizer->StartIteration(iteration, p, q, A[p][q], A[m + 1][n + 1]);
+			visualizer->RecordTableauBefore(A, "Before Pivot");
+			
 			NySimplexTabel(p, q);
+			
+			visualizer->RecordTableauAfter(A, "After Pivot");
+			visualizer->PrintIterationSummary();
 		}
 		else // q = 0 der findes ingen koefficienter > 0 i K-funktionen
+		{
+			visualizer->PrintAllIterations();  // Print summary of all iterations
 			return true;
+		}
 	} // end while
 }
 
